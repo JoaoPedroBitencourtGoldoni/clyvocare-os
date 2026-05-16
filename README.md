@@ -51,10 +51,10 @@ No Brasil, **mais de 140 milhões de pets** dependem de cuidados de saúde preve
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    ClyvoCare OS                          │
+│                    ClyvoCare OS                         │
 │                                                         │
-│  ┌──────────┐    MQTT     ┌──────────┐    HTTP         │
-│  │  ESP32   │ ──────────► │ HiveMQ   │ ──────────►     │
+│  ┌──────────┐    MQTT     ┌──────────┐    HTTP          │
+│  │  ESP32   │ ──────────► │ HiveMQ   │ ──────────►      │
 │  │  Wokwi   │             │  Broker  │                  │
 │  └──────────┘             └────┬─────┘                  │
 │       ↑                        │ MQTT Subscribe         │
@@ -66,10 +66,10 @@ No Brasil, **mais de 140 milhões de pets** dependem de cuidados de saúde preve
 │                                │                        │
 │                    ┌───────────┼───────────┐            │
 │                    ↓           ↓           ↓            │
-│              ┌──────────┐ ┌────────┐ ┌──────────┐      │
-│              │Dashboard │ │WhatsApp│ │  Alertas │      │
-│              │  Web     │ │  API   │ │  MQTT    │      │
-│              └──────────┘ └────────┘ └──────────┘      │
+│              ┌──────────┐ ┌────────┐ ┌──────────┐       │
+│              │Dashboard │ │WhatsApp│ │  Alertas │       │
+│              │  Web     │ │  API   │ │  MQTT    │       │
+│              └──────────┘ └────────┘ └──────────┘       │
 └─────────────────────────────────────────────────────────┘
 ```
 
