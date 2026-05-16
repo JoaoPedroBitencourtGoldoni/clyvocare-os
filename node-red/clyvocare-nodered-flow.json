@@ -1,0 +1,747 @@
+[
+    {
+        "id": "9b732deb6dd27115",
+        "type": "tab",
+        "label": "ClyvoCare OS",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "tls_hivemq_insecure",
+        "type": "tls-config",
+        "name": "TLS HiveMQ Cloud",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "mqtt_broker_hivemq",
+        "type": "mqtt-broker",
+        "name": "HiveMQ Cloud",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "tls": "tls_hivemq_insecure",
+        "clientid": "node-red-clyvocare-os",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "clyvocare/dashboard/status",
+        "birthQos": "0",
+        "birthPayload": "{\"status\":\"online\",\"origem\":\"node-red\"}",
+        "birthMsg": {},
+        "closeTopic": "clyvocare/dashboard/status",
+        "closePayload": "{\"status\":\"offline\",\"origem\":\"node-red\"}",
+        "closeMsg": {},
+        "willTopic": "clyvocare/dashboard/status",
+        "willQos": "0",
+        "willPayload": "{\"status\":\"offline-forcado\",\"origem\":\"node-red\"}",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ui_tab_clyvocare",
+        "type": "ui_tab",
+        "name": "ClyvoCare OS",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ui_group_monitoramento",
+        "type": "ui_group",
+        "name": "Monitoramento do Pet",
+        "tab": "ui_tab_clyvocare",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ui_group_historico",
+        "type": "ui_group",
+        "name": "Histórico e Alertas",
+        "tab": "ui_tab_clyvocare",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "22c234782e1e44ef",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "49258233d3a5a13e",
+        "type": "ui_group",
+        "name": "Sensores IoT — ClyvoCare",
+        "tab": "3b3f7a204dbd6e0d",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "3b3f7a204dbd6e0d",
+        "type": "ui_tab",
+        "name": "ClyvoCare OS",
+        "icon": "pets",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "cc7af57909763514",
+        "type": "ui_group",
+        "name": "Sensores IoT — ClyvoCare",
+        "tab": "ae8491267dfd62b6",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "ae8491267dfd62b6",
+        "type": "ui_tab",
+        "name": "ClyvoCare OS",
+        "icon": "pets",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0faf2ea0b620cc50",
+        "type": "mqtt in",
+        "z": "9b732deb6dd27115",
+        "name": "Recebe Temperatura",
+        "topic": "clyvocare/esp32/temperatura",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "mqtt_broker_hivemq",
+        "inputs": 0,
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "451f546aba1ba63a"
+            ]
+        ]
+    },
+    {
+        "id": "451f546aba1ba63a",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Processa Temperatura",
+        "func": "var temp = parseFloat(msg.payload);\n\nif (isNaN(temp)) return null;\n\n// Verifica alerta\nif (temp > 39.2 || (temp < 37.5 && temp > 20)) {\n    var alertMsg = { payload: {\n        sensor: 'temperatura',\n        valor: temp,\n        status: temp > 39.2 ? 'febre' : 'hipotermia',\n        pet: 'Thor',\n        timestamp: new Date().toISOString()\n    }};\n    node.send([{ payload: temp }, alertMsg]);\n} else {\n    node.send([{ payload: temp }, null]);\n}",
+        "outputs": 2,
+        "x": 380,
+        "y": 80,
+        "wires": [
+            [
+                "ce698ce9e8c599dc",
+                "b77233f8737f984a"
+            ],
+            [
+                "4b8850560a669d2f"
+            ]
+        ]
+    },
+    {
+        "id": "2efbd2d8a27dc845",
+        "type": "mqtt in",
+        "z": "9b732deb6dd27115",
+        "name": "Recebe Umidade",
+        "topic": "clyvocare/esp32/umidade",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "mqtt_broker_hivemq",
+        "inputs": 0,
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "5b823c98c740f223"
+            ]
+        ]
+    },
+    {
+        "id": "5b823c98c740f223",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Processa Umidade",
+        "func": "var hum = parseFloat(msg.payload);\nif (isNaN(hum)) return null;\nmsg.payload = hum;\nreturn msg;",
+        "outputs": 1,
+        "x": 380,
+        "y": 160,
+        "wires": [
+            [
+                "27820105c3ab2c4a",
+                "55f266ba8c3d5f75"
+            ]
+        ]
+    },
+    {
+        "id": "0c83f0f98d48029e",
+        "type": "mqtt in",
+        "z": "9b732deb6dd27115",
+        "name": "Recebe Peso",
+        "topic": "clyvocare/esp32/peso",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "mqtt_broker_hivemq",
+        "inputs": 0,
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "c405f057a95a0edb"
+            ]
+        ]
+    },
+    {
+        "id": "c405f057a95a0edb",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Processa Peso",
+        "func": "var peso = parseFloat(msg.payload);\nif (isNaN(peso)) return null;\nmsg.payload = peso;\nreturn msg;",
+        "outputs": 1,
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "9f16ca55e1ee9d9b",
+                "55119d175b76b3f5"
+            ]
+        ]
+    },
+    {
+        "id": "5e2c505af8bfb8c9",
+        "type": "mqtt in",
+        "z": "9b732deb6dd27115",
+        "name": "Recebe Movimento",
+        "topic": "clyvocare/esp32/movimento",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "mqtt_broker_hivemq",
+        "inputs": 0,
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "0b3f1bdb8400e9b1"
+            ]
+        ]
+    },
+    {
+        "id": "0b3f1bdb8400e9b1",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Processa Movimento",
+        "func": "var mov = parseInt(msg.payload);\nmsg.payload = mov === 1 ? 'ativo' : 'inativo';\nreturn msg;",
+        "outputs": 1,
+        "x": 380,
+        "y": 320,
+        "wires": [
+            [
+                "8d631d0c39c89730"
+            ]
+        ]
+    },
+    {
+        "id": "4b8850560a669d2f",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Gera Alerta Crítico",
+        "func": "var dados = msg.payload;\nvar alertaMsg = JSON.stringify({\n    tipo: 'CRITICO',\n    sensor: dados.sensor,\n    valor: dados.valor,\n    status: dados.status,\n    pet: dados.pet,\n    mensagem: 'Temperatura fora do normal: ' + dados.valor + '°C',\n    acao: 'Verificar pet imediatamente',\n    timestamp: dados.timestamp\n});\nmsg.payload = alertaMsg;\nreturn msg;",
+        "outputs": 1,
+        "x": 640,
+        "y": 80,
+        "wires": [
+            [
+                "de148edc46f60b07",
+                "aaaa0884d6a9500e",
+                "88b0860cb10d8ec5"
+            ]
+        ]
+    },
+    {
+        "id": "de148edc46f60b07",
+        "type": "mqtt out",
+        "z": "9b732deb6dd27115",
+        "name": "Publica Alerta",
+        "topic": "clyvocare/alertas/critico",
+        "qos": "1",
+        "retain": "false",
+        "broker": "mqtt_broker_hivemq",
+        "x": 870,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "526738d0ade0c0bd",
+        "type": "inject",
+        "z": "9b732deb6dd27115",
+        "name": "Verificação Vacinas (a cada hora)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "payload": "check",
+        "x": 180,
+        "y": 440,
+        "wires": [
+            [
+                "d9b6e644fcf76745"
+            ]
+        ]
+    },
+    {
+        "id": "d9b6e644fcf76745",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Checa Calendário Vacinal",
+        "func": "var pets = [\n    {\n        nome: 'Thor',\n        especie: 'cachorro',\n        faseVida: 'adulto',\n        vacinas: [\n            { nome: 'Raiva', ultima: '2024-05-01', intervaloDias: 365 },\n            { nome: 'V10', ultima: '2025-01-10', intervaloDias: 365 },\n            { nome: 'Gripe Canina', ultima: '2025-03-05', intervaloDias: 365 }\n        ]\n    },\n    {\n        nome: 'Luna',\n        especie: 'gato',\n        faseVida: 'filhote',\n        vacinas: [\n            { nome: 'Tríplice Felina', ultima: '2025-04-01', intervaloDias: 30 }\n        ]\n    }\n];\n\nvar hoje = new Date();\nvar alertas = [];\n\npets.forEach(function(pet) {\n    pet.vacinas.forEach(function(vac) {\n        var ultimaData = new Date(vac.ultima);\n        var diasPassados = Math.floor((hoje - ultimaData) / (1000*60*60*24));\n        var diasRestantes = vac.intervaloDias - diasPassados;\n        if (diasRestantes <= 0) {\n            alertas.push({\n                pet: pet.nome,\n                vacina: vac.nome,\n                situacao: 'ATRASADA',\n                diasAtraso: Math.abs(diasRestantes),\n                faseVida: pet.faseVida\n            });\n        } else if (diasRestantes <= 30) {\n            alertas.push({\n                pet: pet.nome,\n                vacina: vac.nome,\n                situacao: 'VENCE_EM_BREVE',\n                diasRestantes: diasRestantes,\n                faseVida: pet.faseVida\n            });\n        }\n    });\n});\n\nmsg.payload = { alertas: alertas, total: alertas.length, checkedAt: hoje.toISOString() };\nreturn msg;",
+        "outputs": 1,
+        "x": 420,
+        "y": 440,
+        "wires": [
+            [
+                "b3db5ac6deef57d5",
+                "b6dc0a85b9aeab85"
+            ]
+        ]
+    },
+    {
+        "id": "b3db5ac6deef57d5",
+        "type": "switch",
+        "z": "9b732deb6dd27115",
+        "name": "Tem alertas?",
+        "property": "payload.total",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 640,
+        "y": 440,
+        "wires": [
+            [
+                "08db5944c8969e82",
+                "7a2595ea355e1f3c"
+            ]
+        ]
+    },
+    {
+        "id": "08db5944c8969e82",
+        "type": "mqtt out",
+        "z": "9b732deb6dd27115",
+        "name": "Publica Alerta Vacina",
+        "topic": "clyvocare/alertas/vacinas",
+        "qos": "1",
+        "retain": "true",
+        "broker": "mqtt_broker_hivemq",
+        "x": 870,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7a2595ea355e1f3c",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Formata Msg WhatsApp",
+        "func": "var alertas = msg.payload.alertas;\nvar mensagem = '🐾 *ClyvoCare OS* — Alerta de Vacinas\\n\\n';\n\nalertaS.forEach(function(a) {\n    var emoji = a.situacao === 'ATRASADA' ? '🚨' : '⚠️';\n    mensagem += emoji + ' *' + a.pet + '* — ' + a.vacina + '\\n';\n    if (a.situacao === 'ATRASADA') {\n        mensagem += '   Atraso de ' + a.diasAtraso + ' dias. Agende agora!\\n';\n    } else {\n        mensagem += '   Vence em ' + a.diasRestantes + ' dias.\\n';\n    }\n    mensagem += '\\n';\n});\n\nmensagem += '📅 Agende: https://clyvocare.app/agendar';\nmsg.payload = mensagem;\nreturn msg;",
+        "outputs": 1,
+        "x": 870,
+        "y": 460,
+        "wires": [
+            [
+                "242e49134962c028"
+            ]
+        ]
+    },
+    {
+        "id": "fb7fed5a8799a77d",
+        "type": "inject",
+        "z": "9b732deb6dd27115",
+        "name": "Análise Risco IA (diária)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "payload": "analyze",
+        "x": 180,
+        "y": 540,
+        "wires": [
+            [
+                "1f7b42dae4efa092"
+            ]
+        ]
+    },
+    {
+        "id": "1f7b42dae4efa092",
+        "type": "function",
+        "z": "9b732deb6dd27115",
+        "name": "Calcula Risco Regional",
+        "func": "var regioes = [\n    { nome: 'Zona Norte', risco: 'ALTO', doencas: ['Leishmaniose', 'Dengue Canina'], petsAfetados: 8 },\n    { nome: 'Zona Sul', risco: 'MEDIO', doencas: ['Parvovirose'], petsAfetados: 3 },\n    { nome: 'Zona Leste', risco: 'BAIXO', doencas: [], petsAfetados: 0 },\n    { nome: 'Zona Oeste', risco: 'MEDIO', doencas: ['Cinomose'], petsAfetados: 2 },\n    { nome: 'Centro', risco: 'BAIXO', doencas: [], petsAfetados: 0 },\n    { nome: 'ABC', risco: 'ALTO', doencas: ['Leishmaniose'], petsAfetados: 5 }\n];\nvar regioesAltas = regioes.filter(function(r) { return r.risco === 'ALTO'; });\nmsg.payload = JSON.stringify({\n    analise: regioes,\n    alertasAltos: regioesAltas.length,\n    totalPetsEmRisco: regioesAltas.reduce(function(acc, r) { return acc + r.petsAfetados; }, 0),\n    geradoEm: new Date().toISOString()\n});\nreturn msg;",
+        "outputs": 1,
+        "x": 420,
+        "y": 540,
+        "wires": [
+            [
+                "4f0aa5a2c21c73ba",
+                "9e82a8bff3bec555"
+            ]
+        ]
+    },
+    {
+        "id": "4f0aa5a2c21c73ba",
+        "type": "mqtt out",
+        "z": "9b732deb6dd27115",
+        "name": "Publica Risco Regional",
+        "topic": "clyvocare/ia/risco-regional",
+        "qos": "1",
+        "retain": "true",
+        "broker": "mqtt_broker_hivemq",
+        "x": 660,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "ce698ce9e8c599dc",
+        "type": "ui_gauge",
+        "z": "9b732deb6dd27115",
+        "name": "Gauge Temperatura",
+        "group": "cc7af57909763514",
+        "order": 1,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Temperatura (°C)",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "35",
+        "max": "42",
+        "colors": [
+            "#2ecc71",
+            "#f39c12",
+            "#e74c3c"
+        ],
+        "seg1": "38",
+        "seg2": "39.2",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "27820105c3ab2c4a",
+        "type": "ui_gauge",
+        "z": "9b732deb6dd27115",
+        "name": "Gauge Umidade",
+        "group": "cc7af57909763514",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Umidade (%)",
+        "label": "%",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "100",
+        "colors": [
+            "#3498db",
+            "#2ecc71",
+            "#e74c3c"
+        ],
+        "seg1": "40",
+        "seg2": "75",
+        "x": 650,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9f16ca55e1ee9d9b",
+        "type": "ui_gauge",
+        "z": "9b732deb6dd27115",
+        "name": "Gauge Peso",
+        "group": "cc7af57909763514",
+        "order": 3,
+        "width": 3,
+        "height": 3,
+        "gtype": "gage",
+        "title": "Peso (kg)",
+        "label": "kg",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "50",
+        "colors": [
+            "#e74c3c",
+            "#2ecc71",
+            "#f39c12"
+        ],
+        "seg1": "10",
+        "seg2": "35",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "8d631d0c39c89730",
+        "type": "ui_text",
+        "z": "9b732deb6dd27115",
+        "group": "cc7af57909763514",
+        "order": 4,
+        "width": 3,
+        "height": 1,
+        "name": "Status Movimento",
+        "label": "Movimento",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 650,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "aaaa0884d6a9500e",
+        "type": "ui_toast",
+        "z": "9b732deb6dd27115",
+        "position": "top right",
+        "displayTime": "5",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "name": "Notificação Alerta",
+        "x": 870,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b77233f8737f984a",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Temp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "55f266ba8c3d5f75",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Umidade",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "55119d175b76b3f5",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Peso",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "88b0860cb10d8ec5",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Alertas",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 870,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "b6dc0a85b9aeab85",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Vacinas",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 650,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "242e49134962c028",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG WhatsApp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1080,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9e82a8bff3bec555",
+        "type": "debug",
+        "z": "9b732deb6dd27115",
+        "name": "DEBUG Risco IA",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 870,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "9a2fc89ef77bd12b",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
