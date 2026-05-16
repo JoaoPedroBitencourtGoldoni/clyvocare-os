@@ -253,7 +253,7 @@ clyvocare-os/
 
 ## 🎬 Links
 
-- 📺 **Vídeo Pitch:** [https://youtu.be/zooWeNgxlFM](#)
+- 📺 **Vídeo Pitch:** [https://www.youtube.com/watch?v=zooWeNgxlFM](https://www.youtube.com/watch?v=zooWeNgxlFM)
 - 💻 **Repositório:** [GitHub](#)
 - 🐾 **Dashboard Live:** Abrir `clyvocare-dashboard.html`
 
