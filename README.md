@@ -243,10 +243,10 @@ clyvocare-os/
 
 | Nome | RM |
 |---|---|
+| [Felipe Maglio Filho] | 563512 |
 | [João Pedro Bitencourt Goldoni] | 564339 |
 | [Marina Tamagnini Magalhães] | 561786 |
-| [Vitória Valentina Maglio] | 563509 |
-| [Vitória Valentina Maglio] | 563509 |
+| [Mateus Granja Dos Santos] | 564939 |
 | [Vitória Valentina Maglio] | 563509 |
 
 ---
