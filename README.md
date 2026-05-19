@@ -259,4 +259,4 @@ clyvocare-os/
 
 ---
 
-*Projeto desenvolvido para a disciplina **Disruptive Architectures: IoT, IoB & Generative IA** — FIAP 2026*
+*Projeto desenvolvido para a disciplina **Disruptive Architectures: IoT, IoB & Generative IA** — FIAP 2026.*
