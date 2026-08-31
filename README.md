@@ -45,7 +45,7 @@ O **ClyvoCare OS** é uma solução que integra IoT, MQTT, Node-RED e Inteligên
 
 | Funcionalidade             | Como funciona                                              |
 | -------------------------- | ---------------------------------------------------------- |
-| 🌡️ Sensores IoT           | ESP32 coleta informações e envia os dados via MQTT         |
+| 🌡️ Sensores IoT           | ESP32 coleta informações e envia os dados via MQTT          |
 | 📊 Dashboard               | Interface para visualização dos dados e alertas            |
 | 💉 Calendário Vacinal      | Identifica vacinas próximas do vencimento ou atrasadas     |
 | 🧠 Inteligência Artificial | Analisa os dados do pet e gera recomendações priorizadas   |
