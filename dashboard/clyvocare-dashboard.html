@@ -721,7 +721,7 @@
       <span class="icon">🏥</span> Histórico
     </div>
     <div class="nav-item">
-      <span class="icon">🗺️</span> Risco Regional
+      <span class="icon">🧠</span> Recomendações IA
     </div>
     <div class="nav-item">
       <span class="icon">🔔</span> Alertas
@@ -741,7 +741,7 @@
       <span class="live-label">● AO VIVO</span>
       <div class="mqtt-badge">
         <span class="dot"></span>
-        HiveMQ conectado — broker.hivemq.com:8883
+        HiveMQ conectado — broker.hivemq.com:1883
       </div>
     </div>
   </div>
@@ -787,7 +787,7 @@
         <div class="sensor-item">
           <div class="sensor-icon">🌡️</div>
           <div class="sensor-info">
-            <div class="sensor-name">Temperatura Corporal (DHT22)</div>
+            <div class="sensor-name">Temperatura (DHT22)</div>
             <div class="sensor-value">38.4°C <span style="font-size:0.72rem;color:var(--accent)">Normal</span></div>
           </div>
           <div class="sensor-bar"><div class="sensor-bar-fill" style="width:68%"></div></div>
@@ -803,7 +803,7 @@
         <div class="sensor-item">
           <div class="sensor-icon">⚖️</div>
           <div class="sensor-info">
-            <div class="sensor-name">Peso — Célula de Carga (HX711)</div>
+            <div class="sensor-name">Peso — Potenciômetro (simulado)</div>
             <div class="sensor-value">12.3 kg <span style="font-size:0.72rem;color:var(--accent)">Ideal</span></div>
           </div>
           <div class="sensor-bar"><div class="sensor-bar-fill" style="width:55%"></div></div>
@@ -827,43 +827,43 @@
       </div>
     </div>
 
-    <!-- Alertas IA -->
+    <!-- Recomendações da IA -->
     <div class="card">
       <div class="card-title">
-        Alertas Inteligentes
-        <span class="badge">IA Regional</span>
+        Recomendações Inteligentes
+        <span class="badge">Motor de Regras</span>
       </div>
       <div class="alert-list">
         <div class="alert-item critical">
           <div class="alert-dot"></div>
           <div>
-            <div class="alert-title">🦟 Risco Leishmaniose — Zona Norte</div>
-            <div class="alert-desc">IA detectou aumento de 34% nos casos da região. 8 pets em risco.</div>
-            <div class="alert-time">Há 12 min</div>
+            <div class="alert-title">💉 Vacinação — Prioridade ALTA</div>
+            <div class="alert-desc">Agendar reforço da vacina contra Raiva. Score: 93.</div>
+            <div class="alert-time">Base: perfil + vacinas</div>
+          </div>
+        </div>
+        <div class="alert-item critical">
+          <div class="alert-dot"></div>
+          <div>
+            <div class="alert-title">🏥 Retorno Clínico — Prioridade ALTA</div>
+            <div class="alert-desc">Agendar retorno do tratamento pendente. Score: 90.</div>
+            <div class="alert-time">Base: histórico clínico + medicamentos</div>
           </div>
         </div>
         <div class="alert-item warning">
           <div class="alert-dot"></div>
           <div>
-            <div class="alert-title">💉 Raiva — Vacina Vencida</div>
-            <div class="alert-desc">Thor (Golden, 3a) com reforço atrasado 15 dias.</div>
-            <div class="alert-time">Há 1h</div>
-          </div>
-        </div>
-        <div class="alert-item warning">
-          <div class="alert-dot"></div>
-          <div>
-            <div class="alert-title">🌡️ Temperatura Elevada</div>
-            <div class="alert-desc">Sensor registrou pico de 39.8°C às 14:32. Monitorar.</div>
-            <div class="alert-time">Há 2h</div>
+            <div class="alert-title">🏃 Comportamento — Prioridade MÉDIA</div>
+            <div class="alert-desc">Avaliar redução de 35% no nível de atividade. Score: 80.</div>
+            <div class="alert-time">Base: comportamento + atividade</div>
           </div>
         </div>
         <div class="alert-item info">
           <div class="alert-dot"></div>
           <div>
-            <div class="alert-title">📱 WhatsApp Enviado</div>
-            <div class="alert-desc">Lembrete de consulta enviado para 5 tutores.</div>
-            <div class="alert-time">Há 3h</div>
+            <div class="alert-title">📅 Consulta Preventiva — Prioridade MÉDIA</div>
+            <div class="alert-desc">Recomendada conforme fase de vida e intervalo desde a última consulta. Score: 70.</div>
+            <div class="alert-time">Base: perfil + consultas</div>
           </div>
         </div>
       </div>
@@ -950,57 +950,56 @@
         </div>
         <div class="tl-item">
           <div class="tl-dot upcoming"></div>
-          <div class="tl-vaccine">Leishmaniose</div>
-          <div class="tl-date">Set 2025 — Recomendada IA</div>
-          <span class="tl-tag upcoming">→ Sugerida</span>
+          <div class="tl-vaccine">V10 — Próximo Reforço</div>
+          <div class="tl-date">Jan 2026 — Prevista</div>
+          <span class="tl-tag upcoming">→ Próxima</span>
         </div>
       </div>
     </div>
 
-    <!-- Risco Regional -->
+    <!-- Resumo da IA -->
     <div class="card">
       <div class="card-title">
-        Risco IA Regional
-        <span class="badge">São Paulo</span>
+        Análise da IA — Thor
+        <span class="badge">4 recomendações</span>
       </div>
-      <div class="risk-map">
-        <div class="risk-zone high">
-          <div class="zone-name">Zona Norte</div>
-          <div class="risk-level">ALTO</div>
+      <div class="sensor-row">
+        <div class="sensor-item">
+          <div class="sensor-icon">💉</div>
+          <div class="sensor-info">
+            <div class="sensor-name">Vacinação</div>
+            <div class="sensor-value">ALTA <span style="font-size:0.72rem;color:var(--red)">Score 93</span></div>
+          </div>
+          <div class="sensor-bar"><div class="sensor-bar-fill red" style="width:93%"></div></div>
         </div>
-        <div class="risk-zone med">
-          <div class="zone-name">Zona Sul</div>
-          <div class="risk-level">MED</div>
+        <div class="sensor-item">
+          <div class="sensor-icon">🏥</div>
+          <div class="sensor-info">
+            <div class="sensor-name">Retorno Clínico</div>
+            <div class="sensor-value">ALTA <span style="font-size:0.72rem;color:var(--red)">Score 90</span></div>
+          </div>
+          <div class="sensor-bar"><div class="sensor-bar-fill red" style="width:90%"></div></div>
         </div>
-        <div class="risk-zone low">
-          <div class="zone-name">Zona Leste</div>
-          <div class="risk-level">BAIXO</div>
+        <div class="sensor-item">
+          <div class="sensor-icon">🏃</div>
+          <div class="sensor-info">
+            <div class="sensor-name">Comportamento</div>
+            <div class="sensor-value">MÉDIA <span style="font-size:0.72rem;color:var(--amber)">Score 80</span></div>
+          </div>
+          <div class="sensor-bar"><div class="sensor-bar-fill amber" style="width:80%"></div></div>
         </div>
-        <div class="risk-zone med">
-          <div class="zone-name">Zona Oeste</div>
-          <div class="risk-level">MED</div>
-        </div>
-        <div class="risk-zone low">
-          <div class="zone-name">Centro</div>
-          <div class="risk-level">BAIXO</div>
-        </div>
-        <div class="risk-zone high">
-          <div class="zone-name">ABC</div>
-          <div class="risk-level">ALTO</div>
+        <div class="sensor-item">
+          <div class="sensor-icon">📅</div>
+          <div class="sensor-info">
+            <div class="sensor-name">Consulta Preventiva</div>
+            <div class="sensor-value">MÉDIA <span style="font-size:0.72rem;color:var(--amber)">Score 70</span></div>
+          </div>
+          <div class="sensor-bar"><div class="sensor-bar-fill amber" style="width:70%"></div></div>
         </div>
       </div>
-
-      <div style="margin-top:18px;">
-        <div class="card-title" style="margin-bottom:12px;">Consultas / Semana</div>
-        <div class="bar-chart">
-          <div class="bar-col"><div class="bar-fill" style="height:40%"></div><span class="bar-label">Seg</span></div>
-          <div class="bar-col"><div class="bar-fill" style="height:65%"></div><span class="bar-label">Ter</span></div>
-          <div class="bar-col"><div class="bar-fill" style="height:50%"></div><span class="bar-label">Qua</span></div>
-          <div class="bar-col"><div class="bar-fill" style="height:90%"></div><span class="bar-label">Qui</span></div>
-          <div class="bar-col"><div class="bar-fill" style="height:75%"></div><span class="bar-label">Sex</span></div>
-          <div class="bar-col"><div class="bar-fill amber" style="height:30%"></div><span class="bar-label">Sáb</span></div>
-          <div class="bar-col"><div class="bar-fill" style="height:15%"></div><span class="bar-label">Dom</span></div>
-        </div>
+      <div style="margin-top:16px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:0.72rem;color:var(--text-muted);line-height:1.5;">
+        🧠 A IA utiliza um <strong style="color:var(--text)">Motor de Regras Inteligentes</strong> para analisar perfil, vacinas, consultas,
+        histórico clínico, medicamentos e comportamento. As recomendações são ordenadas por score e prioridade.
       </div>
     </div>
   </div>
@@ -1016,7 +1015,8 @@
       <div class="mqtt-line"><span class="ts">[14:55:03]</span> <span class="topic">clyvocare/esp32/umidade</span> → <span class="val">72.1</span></div>
       <div class="mqtt-line"><span class="ts">[14:55:05]</span> <span class="topic">clyvocare/esp32/peso</span> → <span class="val">12.3</span></div>
       <div class="mqtt-line"><span class="ts">[14:55:07]</span> <span class="topic">clyvocare/esp32/movimento</span> → <span class="val">1</span></div>
-      <div class="mqtt-line"><span class="ts">[14:55:10]</span> <span class="topic">clyvocare/alerta/vacina</span> → <span class="val">"Thor - Raiva pendente"</span></div>
+      <div class="mqtt-line"><span class="ts">[14:55:10]</span> <span class="topic">clyvocare/alertas/vacinas</span> → <span class="val">"Thor - Raiva pendente"</span></div>
+      <div class="mqtt-line"><span class="ts">[14:55:12]</span> <span class="topic">clyvocare/ia/recomendacoes</span> → <span class="val">4 recomendações priorizadas</span></div>
     </div>
   </div>
 
@@ -1076,7 +1076,7 @@
     </div>
 
     <div class="card">
-      <div class="card-title">Integração WhatsApp</div>
+      <div class="card-title">Mensagem WhatsApp — Simulação</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
         <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);font-size:0.78rem;">
           <div style="color:var(--accent);margin-bottom:4px;">📱 Mensagem Enviada</div>
@@ -1089,7 +1089,7 @@
           <div style="color:var(--text-muted);font-size:0.68rem;margin-top:6px;">→ Tutor: Maria Costa · 16h00</div>
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);padding:8px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
-          🤖 Node-RED aciona WhatsApp via MQTT trigger automático quando sensor detecta anomalia ou vacina vence.
+          🤖 O Node-RED formata a mensagem de alerta. Nesta entrega, o envio ao WhatsApp é apresentado de forma simulada.
         </div>
       </div>
     </div>
