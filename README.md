@@ -165,9 +165,9 @@ Assim, pets diferentes podem receber recomendações diferentes mesmo sendo aval
 ## 🏗️ Arquitetura
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
+┌───────────────────────────────────────────────────────────────── ┐
 │                         ClyvoCare OS                             │
-│                                                                 │
+│                                                                  │
 │   ┌──────────────┐                         ┌──────────────────┐  │
 │   │ Tutor /      │                         │      Clínica     │  │
 │   │ Aplicação    │                         │                  │  │
@@ -183,13 +183,13 @@ Assim, pets diferentes podem receber recomendações diferentes mesmo sendo aval
 │                  ┌──────────┴──────────┐                         │
 │                  ↓                     ↓                         │
 │            ┌───────────┐      ┌────────────────────┐             │
-│            │ Banco de  │      │ Motor de Regras   │             │
-│            │ Dados     │      │ Inteligentes      │             │
+│            │ Banco de  │      │ Motor de Regras   │              │
+│            │ Dados     │      │ Inteligentes      │              │
 │            └───────────┘      └─────────┬──────────┘             │
-│                                        │                        │
-│                                        ↓                        │
+│                                        │                         │
+│                                        ↓                         │
 │                              Recomendações priorizadas           │
-│                                                                 │
+│                                                                  │
 │   ┌──────────┐     MQTT      ┌──────────┐                        │
 │   │ ESP32    │ ────────────► │ HiveMQ   │                        │
 │   │ Wokwi    │               │ Broker   │                        │
@@ -202,7 +202,7 @@ Assim, pets diferentes podem receber recomendações diferentes mesmo sendo aval
 │                                   │                              │
 │                                   ↓                              │
 │                           Dashboard / Alertas                    │
-└─────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ### Fluxo de dados
