@@ -1,6 +1,6 @@
 [
     {
-        "id": "9b732deb6dd27115",
+        "id": "5d9c28597954a336",
         "type": "tab",
         "label": "ClyvoCare OS",
         "disabled": false,
@@ -176,6 +176,24 @@
         }
     },
     {
+        "id": "3b3f7a204dbd6e0d",
+        "type": "ui_tab",
+        "name": "ClyvoCare OS",
+        "icon": "pets",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ae8491267dfd62b6",
+        "type": "ui_tab",
+        "name": "ClyvoCare OS",
+        "icon": "pets",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
         "id": "49258233d3a5a13e",
         "type": "ui_group",
         "name": "Sensores IoT — ClyvoCare",
@@ -184,15 +202,6 @@
         "disp": true,
         "width": "12",
         "collapse": false
-    },
-    {
-        "id": "3b3f7a204dbd6e0d",
-        "type": "ui_tab",
-        "name": "ClyvoCare OS",
-        "icon": "pets",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
     },
     {
         "id": "cc7af57909763514",
@@ -205,18 +214,9 @@
         "collapse": false
     },
     {
-        "id": "ae8491267dfd62b6",
-        "type": "ui_tab",
-        "name": "ClyvoCare OS",
-        "icon": "pets",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "0faf2ea0b620cc50",
+        "id": "ffabf41ab63b2971",
         "type": "mqtt in",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Recebe Temperatura",
         "topic": "clyvocare/esp32/temperatura",
         "qos": "1",
@@ -227,14 +227,14 @@
         "y": 80,
         "wires": [
             [
-                "451f546aba1ba63a"
+                "d667ad77324fabb4"
             ]
         ]
     },
     {
-        "id": "451f546aba1ba63a",
+        "id": "d667ad77324fabb4",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Processa Temperatura",
         "func": "var temp = parseFloat(msg.payload);\n\nif (isNaN(temp)) return null;\n\n// Verifica alerta\nif (temp > 39.2 || (temp < 37.5 && temp > 20)) {\n    var alertMsg = { payload: {\n        sensor: 'temperatura',\n        valor: temp,\n        status: temp > 39.2 ? 'febre' : 'hipotermia',\n        pet: 'Thor',\n        timestamp: new Date().toISOString()\n    }};\n    node.send([{ payload: temp }, alertMsg]);\n} else {\n    node.send([{ payload: temp }, null]);\n}",
         "outputs": 2,
@@ -242,18 +242,18 @@
         "y": 80,
         "wires": [
             [
-                "ce698ce9e8c599dc",
-                "b77233f8737f984a"
+                "8c4fb09ded75f1ac",
+                "e308e839ced0f768"
             ],
             [
-                "4b8850560a669d2f"
+                "956060f0c6218903"
             ]
         ]
     },
     {
-        "id": "2efbd2d8a27dc845",
+        "id": "ea0bf27067b0635e",
         "type": "mqtt in",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Recebe Umidade",
         "topic": "clyvocare/esp32/umidade",
         "qos": "1",
@@ -264,14 +264,14 @@
         "y": 160,
         "wires": [
             [
-                "5b823c98c740f223"
+                "57af07a9f7f021d3"
             ]
         ]
     },
     {
-        "id": "5b823c98c740f223",
+        "id": "57af07a9f7f021d3",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Processa Umidade",
         "func": "var hum = parseFloat(msg.payload);\nif (isNaN(hum)) return null;\nmsg.payload = hum;\nreturn msg;",
         "outputs": 1,
@@ -279,15 +279,15 @@
         "y": 160,
         "wires": [
             [
-                "27820105c3ab2c4a",
-                "55f266ba8c3d5f75"
+                "a37977e2894f7f9c",
+                "a086e67778acdd26"
             ]
         ]
     },
     {
-        "id": "0c83f0f98d48029e",
+        "id": "7d5a71de1a8b67b6",
         "type": "mqtt in",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Recebe Peso",
         "topic": "clyvocare/esp32/peso",
         "qos": "1",
@@ -298,14 +298,14 @@
         "y": 240,
         "wires": [
             [
-                "c405f057a95a0edb"
+                "54ce6496ee8f29d9"
             ]
         ]
     },
     {
-        "id": "c405f057a95a0edb",
+        "id": "54ce6496ee8f29d9",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Processa Peso",
         "func": "var peso = parseFloat(msg.payload);\nif (isNaN(peso)) return null;\nmsg.payload = peso;\nreturn msg;",
         "outputs": 1,
@@ -313,15 +313,15 @@
         "y": 240,
         "wires": [
             [
-                "9f16ca55e1ee9d9b",
-                "55119d175b76b3f5"
+                "e445f122dd53fb1d",
+                "c62e4a32c51a2923"
             ]
         ]
     },
     {
-        "id": "5e2c505af8bfb8c9",
+        "id": "c09219a9db84bf05",
         "type": "mqtt in",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Recebe Movimento",
         "topic": "clyvocare/esp32/movimento",
         "qos": "1",
@@ -332,14 +332,14 @@
         "y": 320,
         "wires": [
             [
-                "0b3f1bdb8400e9b1"
+                "fa5f949abb780bb7"
             ]
         ]
     },
     {
-        "id": "0b3f1bdb8400e9b1",
+        "id": "fa5f949abb780bb7",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Processa Movimento",
         "func": "var mov = parseInt(msg.payload);\nmsg.payload = mov === 1 ? 'ativo' : 'inativo';\nreturn msg;",
         "outputs": 1,
@@ -347,44 +347,44 @@
         "y": 320,
         "wires": [
             [
-                "8d631d0c39c89730"
+                "0da23731f58d6592"
             ]
         ]
     },
     {
-        "id": "4b8850560a669d2f",
+        "id": "956060f0c6218903",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Gera Alerta Crítico",
         "func": "var dados = msg.payload;\nvar alertaMsg = JSON.stringify({\n    tipo: 'CRITICO',\n    sensor: dados.sensor,\n    valor: dados.valor,\n    status: dados.status,\n    pet: dados.pet,\n    mensagem: 'Temperatura fora do normal: ' + dados.valor + '°C',\n    acao: 'Verificar pet imediatamente',\n    timestamp: dados.timestamp\n});\nmsg.payload = alertaMsg;\nreturn msg;",
         "outputs": 1,
-        "x": 640,
-        "y": 80,
+        "x": 1090,
+        "y": 120,
         "wires": [
             [
-                "de148edc46f60b07",
-                "aaaa0884d6a9500e",
-                "88b0860cb10d8ec5"
+                "8ae8b2c9e4d463e4",
+                "607826a2bdc88fee",
+                "c2194cfb9cff89fb"
             ]
         ]
     },
     {
-        "id": "de148edc46f60b07",
+        "id": "8ae8b2c9e4d463e4",
         "type": "mqtt out",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Publica Alerta",
         "topic": "clyvocare/alertas/critico",
         "qos": "1",
         "retain": "false",
         "broker": "mqtt_broker_hivemq",
-        "x": 870,
-        "y": 80,
+        "x": 1380,
+        "y": 120,
         "wires": []
     },
     {
-        "id": "526738d0ade0c0bd",
+        "id": "6c01a35a987643fd",
         "type": "inject",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Verificação Vacinas (a cada hora)",
         "props": [
             {
@@ -400,30 +400,30 @@
         "y": 440,
         "wires": [
             [
-                "d9b6e644fcf76745"
+                "47b8054d3e34723c"
             ]
         ]
     },
     {
-        "id": "d9b6e644fcf76745",
+        "id": "47b8054d3e34723c",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Checa Calendário Vacinal",
         "func": "var pets = [\n    {\n        nome: 'Thor',\n        especie: 'cachorro',\n        faseVida: 'adulto',\n        vacinas: [\n            { nome: 'Raiva', ultima: '2024-05-01', intervaloDias: 365 },\n            { nome: 'V10', ultima: '2025-01-10', intervaloDias: 365 },\n            { nome: 'Gripe Canina', ultima: '2025-03-05', intervaloDias: 365 }\n        ]\n    },\n    {\n        nome: 'Luna',\n        especie: 'gato',\n        faseVida: 'filhote',\n        vacinas: [\n            { nome: 'Tríplice Felina', ultima: '2025-04-01', intervaloDias: 30 }\n        ]\n    }\n];\n\nvar hoje = new Date();\nvar alertas = [];\n\npets.forEach(function(pet) {\n    pet.vacinas.forEach(function(vac) {\n        var ultimaData = new Date(vac.ultima);\n        var diasPassados = Math.floor((hoje - ultimaData) / (1000*60*60*24));\n        var diasRestantes = vac.intervaloDias - diasPassados;\n        if (diasRestantes <= 0) {\n            alertas.push({\n                pet: pet.nome,\n                vacina: vac.nome,\n                situacao: 'ATRASADA',\n                diasAtraso: Math.abs(diasRestantes),\n                faseVida: pet.faseVida\n            });\n        } else if (diasRestantes <= 30) {\n            alertas.push({\n                pet: pet.nome,\n                vacina: vac.nome,\n                situacao: 'VENCE_EM_BREVE',\n                diasRestantes: diasRestantes,\n                faseVida: pet.faseVida\n            });\n        }\n    });\n});\n\nmsg.payload = { alertas: alertas, total: alertas.length, checkedAt: hoje.toISOString() };\nreturn msg;",
         "outputs": 1,
-        "x": 420,
+        "x": 510,
         "y": 440,
         "wires": [
             [
-                "b3db5ac6deef57d5",
-                "b6dc0a85b9aeab85"
+                "77db7405d13bcbc4",
+                "1ff611660d32e30d"
             ]
         ]
     },
     {
-        "id": "b3db5ac6deef57d5",
+        "id": "77db7405d13bcbc4",
         "type": "switch",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Tem alertas?",
         "property": "payload.total",
         "propertyType": "msg",
@@ -437,99 +437,105 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 640,
-        "y": 440,
+        "x": 750,
+        "y": 420,
         "wires": [
             [
-                "08db5944c8969e82",
-                "7a2595ea355e1f3c"
+                "f1eaa6136d400bdc",
+                "c6686cbb15ec24ca"
             ]
         ]
     },
     {
-        "id": "08db5944c8969e82",
+        "id": "f1eaa6136d400bdc",
         "type": "mqtt out",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Publica Alerta Vacina",
         "topic": "clyvocare/alertas/vacinas",
         "qos": "1",
         "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
         "broker": "mqtt_broker_hivemq",
-        "x": 870,
-        "y": 420,
+        "x": 1060,
+        "y": 400,
         "wires": []
     },
     {
-        "id": "7a2595ea355e1f3c",
+        "id": "c6686cbb15ec24ca",
         "type": "function",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Formata Msg WhatsApp",
-        "func": "var alertas = msg.payload.alertas;\nvar mensagem = '🐾 *ClyvoCare OS* — Alerta de Vacinas\\n\\n';\n\nalertaS.forEach(function(a) {\n    var emoji = a.situacao === 'ATRASADA' ? '🚨' : '⚠️';\n    mensagem += emoji + ' *' + a.pet + '* — ' + a.vacina + '\\n';\n    if (a.situacao === 'ATRASADA') {\n        mensagem += '   Atraso de ' + a.diasAtraso + ' dias. Agende agora!\\n';\n    } else {\n        mensagem += '   Vence em ' + a.diasRestantes + ' dias.\\n';\n    }\n    mensagem += '\\n';\n});\n\nmensagem += '📅 Agende: https://clyvocare.app/agendar';\nmsg.payload = mensagem;\nreturn msg;",
+        "func": "var alertas = msg.payload.alertas;\nvar mensagem = '🐾 *ClyvoCare OS* — Alerta de Vacinas\\n\\n';\n\nalertas.forEach(function(a) {\n    var emoji = a.situacao === 'ATRASADA' ? '🚨' : '⚠️';\n    mensagem += emoji + ' *' + a.pet + '* — ' + a.vacina + '\\n';\n    if (a.situacao === 'ATRASADA') {\n        mensagem += '   Atraso de ' + a.diasAtraso + ' dias. Agende agora!\\n';\n    } else {\n        mensagem += '   Vence em ' + a.diasRestantes + ' dias.\\n';\n    }\n    mensagem += '\\n';\n});\n\nmensagem += '📅 Agende: https://clyvocare.app/agendar';\nmsg.payload = mensagem;\nreturn msg;",
         "outputs": 1,
-        "x": 870,
+        "x": 1050,
         "y": 460,
         "wires": [
             [
-                "242e49134962c028"
+                "ba6008e715f9cfe6"
             ]
         ]
     },
     {
-        "id": "fb7fed5a8799a77d",
+        "id": "cd5a6c00a8cf5b04",
         "type": "inject",
-        "z": "9b732deb6dd27115",
-        "name": "Análise Risco IA (diária)",
+        "z": "5d9c28597954a336",
+        "name": "Dados do Pet — Demonstração IA",
         "props": [
             {
                 "p": "payload"
             }
         ],
-        "repeat": "86400",
+        "repeat": "",
         "crontab": "",
-        "once": true,
-        "onceDelay": "10",
-        "payload": "analyze",
-        "x": 180,
+        "once": false,
+        "onceDelay": "0.1",
+        "payload": "{\"dataReferencia\":\"2026-08-31\",\"perfil\":{\"id\":\"pet-001\",\"nome\":\"Thor\",\"especie\":\"cao\",\"idadeAnos\":3,\"faseVida\":\"adulto\"},\"historicoClinico\":[{\"data\":\"2026-03-10\",\"tipo\":\"consulta\",\"observacao\":\"acompanhamento de rotina\"}],\"vacinas\":[{\"nome\":\"Raiva\",\"proximaDose\":\"2026-08-15\",\"status\":\"atrasada\"},{\"nome\":\"V10\",\"proximaDose\":\"2027-01-10\",\"status\":\"em_dia\"}],\"consultas\":[{\"data\":\"2026-02-01\",\"tipo\":\"rotina\"}],\"medicamentos\":[{\"nome\":\"Tratamento prescrito\",\"status\":\"ativo\",\"retornoRecomendado\":true,\"dataRetorno\":\"2026-08-20\"}],\"comportamento\":{\"variacaoAtividadePercentual\":-35,\"origem\":\"PIR IoT + registro do tutor\"}}",
+        "payloadType": "json",
+        "x": 190,
         "y": 540,
         "wires": [
             [
-                "1f7b42dae4efa092"
+                "18f63c81ad37d5a7"
             ]
         ]
     },
     {
-        "id": "1f7b42dae4efa092",
+        "id": "18f63c81ad37d5a7",
         "type": "function",
-        "z": "9b732deb6dd27115",
-        "name": "Calcula Risco Regional",
-        "func": "var regioes = [\n    { nome: 'Zona Norte', risco: 'ALTO', doencas: ['Leishmaniose', 'Dengue Canina'], petsAfetados: 8 },\n    { nome: 'Zona Sul', risco: 'MEDIO', doencas: ['Parvovirose'], petsAfetados: 3 },\n    { nome: 'Zona Leste', risco: 'BAIXO', doencas: [], petsAfetados: 0 },\n    { nome: 'Zona Oeste', risco: 'MEDIO', doencas: ['Cinomose'], petsAfetados: 2 },\n    { nome: 'Centro', risco: 'BAIXO', doencas: [], petsAfetados: 0 },\n    { nome: 'ABC', risco: 'ALTO', doencas: ['Leishmaniose'], petsAfetados: 5 }\n];\nvar regioesAltas = regioes.filter(function(r) { return r.risco === 'ALTO'; });\nmsg.payload = JSON.stringify({\n    analise: regioes,\n    alertasAltos: regioesAltas.length,\n    totalPetsEmRisco: regioesAltas.reduce(function(acc, r) { return acc + r.petsAfetados; }, 0),\n    geradoEm: new Date().toISOString()\n});\nreturn msg;",
+        "z": "5d9c28597954a336",
+        "name": "Motor de Regras Inteligentes",
+        "func": "// ClyvoCare OS — Sprint 3\n// Motor de regras inteligentes para recomendar e priorizar ações de cuidado.\n// A saída apoia tutor e clínica; não realiza diagnóstico veterinário.\n\nvar dados = msg.payload;\nvar pet = dados.perfil || {};\nvar referencia = new Date(dados.dataReferencia || new Date().toISOString().slice(0, 10));\nvar recomendacoes = [];\n\nfunction diasEntre(dataInicial, dataFinal) {\n    var inicio = new Date(dataInicial);\n    if (isNaN(inicio.getTime())) return 0;\n    return Math.floor((dataFinal - inicio) / (1000 * 60 * 60 * 24));\n}\n\nfunction prioridade(score) {\n    if (score >= 90) return 'ALTA';\n    if (score >= 60) return 'MEDIA';\n    return 'BAIXA';\n}\n\nfunction adicionar(servico, acao, score, motivo, origem) {\n    recomendacoes.push({\n        servico: servico,\n        acao: acao,\n        score: score,\n        prioridade: prioridade(score),\n        motivo: motivo,\n        dadosUtilizados: origem\n    });\n}\n\n// Regra 1 — Vacina atrasada: recomenda vacinação e prioriza pelo atraso.\n(dados.vacinas || []).forEach(function(vacina) {\n    var atraso = diasEntre(vacina.proximaDose, referencia);\n    if (vacina.status === 'atrasada' || atraso > 0) {\n        var scoreVacina = Math.min(100, 85 + Math.min(atraso, 30) / 2);\n        adicionar(\n            'Vacinação',\n            'Agendar reforço de ' + vacina.nome,\n            scoreVacina,\n            vacina.nome + ' está atrasada há ' + atraso + ' dia(s).',\n            ['vacinas', 'perfil']\n        );\n    }\n});\n\n// Regra 2 — Consulta preventiva personalizada pela fase de vida.\nvar intervaloConsulta = pet.faseVida === 'idoso' ? 120 : (pet.faseVida === 'filhote' ? 90 : 180);\nif ((dados.consultas || []).length > 0) {\n    var consultasOrdenadas = dados.consultas.slice().sort(function(a, b) {\n        return new Date(b.data) - new Date(a.data);\n    });\n    var diasSemConsulta = diasEntre(consultasOrdenadas[0].data, referencia);\n    if (diasSemConsulta > intervaloConsulta) {\n        adicionar(\n            'Consulta preventiva',\n            'Agendar consulta de rotina',\n            70,\n            'Pet ' + (pet.faseVida || 'sem fase informada') + ' está há ' + diasSemConsulta + ' dias sem consulta; referência usada: ' + intervaloConsulta + ' dias.',\n            ['perfil', 'consultas', 'historicoClinico']\n        );\n    }\n}\n\n// Regra 3 — Retorno associado a tratamento prescrito.\n(dados.medicamentos || []).forEach(function(med) {\n    if (med.status === 'ativo' && med.retornoRecomendado && med.dataRetorno) {\n        var atrasoRetorno = diasEntre(med.dataRetorno, referencia);\n        if (atrasoRetorno > 0) {\n            adicionar(\n                'Retorno clínico',\n                'Agendar retorno do tratamento em andamento',\n                90,\n                'Data de retorno registrada passou há ' + atrasoRetorno + ' dia(s).',\n                ['medicamentos', 'historicoClinico']\n            );\n        }\n    }\n});\n\n// Regra 4 — Mudança relevante de atividade observada pelo tutor/IoT.\nvar variacao = dados.comportamento && Number(dados.comportamento.variacaoAtividadePercentual);\nif (!isNaN(variacao) && variacao <= -30) {\n    adicionar(\n        'Avaliação veterinária',\n        'Sugerir avaliação por mudança de comportamento',\n        80,\n        'Atividade reduziu ' + Math.abs(variacao) + '% em relação ao padrão registrado.',\n        ['comportamento', 'perfil']\n    );\n}\n\n// Priorização final: maior score primeiro.\nrecomendacoes.sort(function(a, b) { return b.score - a.score; });\n\nmsg.payload = {\n    pet: { id: pet.id, nome: pet.nome, especie: pet.especie, faseVida: pet.faseVida },\n    abordagemIA: 'Motor de regras inteligentes',\n    estrategiaPersonalizacao: 'Regras ajustadas por fase de vida e contexto individual do pet',\n    totalRecomendacoes: recomendacoes.length,\n    recomendacoes: recomendacoes,\n    geradoEm: new Date().toISOString(),\n    aviso: 'As recomendações apoiam a decisão e não substituem avaliação veterinária.'\n};\nreturn msg;",
         "outputs": 1,
-        "x": 420,
+        "x": 480,
         "y": 540,
         "wires": [
             [
-                "4f0aa5a2c21c73ba",
-                "9e82a8bff3bec555"
+                "4b21489e9562dbf4",
+                "2d164068c2e8fd2a"
             ]
         ]
     },
     {
-        "id": "4f0aa5a2c21c73ba",
+        "id": "4b21489e9562dbf4",
         "type": "mqtt out",
-        "z": "9b732deb6dd27115",
-        "name": "Publica Risco Regional",
-        "topic": "clyvocare/ia/risco-regional",
+        "z": "5d9c28597954a336",
+        "name": "Publica Recomendações IA",
+        "topic": "clyvocare/ia/recomendacoes",
         "qos": "1",
         "retain": "true",
         "broker": "mqtt_broker_hivemq",
-        "x": 660,
+        "x": 760,
         "y": 540,
         "wires": []
     },
     {
-        "id": "ce698ce9e8c599dc",
+        "id": "8c4fb09ded75f1ac",
         "type": "ui_gauge",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Gauge Temperatura",
         "group": "cc7af57909763514",
         "order": 1,
@@ -548,14 +554,14 @@
         ],
         "seg1": "38",
         "seg2": "39.2",
-        "x": 650,
-        "y": 160,
+        "x": 1100,
+        "y": 80,
         "wires": []
     },
     {
-        "id": "27820105c3ab2c4a",
+        "id": "a37977e2894f7f9c",
         "type": "ui_gauge",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Gauge Umidade",
         "group": "cc7af57909763514",
         "order": 2,
@@ -574,14 +580,14 @@
         ],
         "seg1": "40",
         "seg2": "75",
-        "x": 650,
-        "y": 200,
+        "x": 760,
+        "y": 160,
         "wires": []
     },
     {
-        "id": "9f16ca55e1ee9d9b",
+        "id": "e445f122dd53fb1d",
         "type": "ui_gauge",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "Gauge Peso",
         "group": "cc7af57909763514",
         "order": 3,
@@ -600,14 +606,14 @@
         ],
         "seg1": "10",
         "seg2": "35",
-        "x": 650,
+        "x": 750,
         "y": 240,
         "wires": []
     },
     {
-        "id": "8d631d0c39c89730",
+        "id": "0da23731f58d6592",
         "type": "ui_text",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "group": "cc7af57909763514",
         "order": 4,
         "width": 3,
@@ -616,14 +622,14 @@
         "label": "Movimento",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 650,
-        "y": 320,
+        "x": 630,
+        "y": 380,
         "wires": []
     },
     {
-        "id": "aaaa0884d6a9500e",
+        "id": "607826a2bdc88fee",
         "type": "ui_toast",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "position": "top right",
         "displayTime": "5",
         "highlight": "",
@@ -634,110 +640,113 @@
         "raw": false,
         "className": "",
         "name": "Notificação Alerta",
-        "x": 870,
-        "y": 120,
+        "x": 1390,
+        "y": 180,
         "wires": []
     },
     {
-        "id": "b77233f8737f984a",
+        "id": "e308e839ced0f768",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG Temp",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 650,
-        "y": 120,
+        "x": 1080,
+        "y": 40,
         "wires": []
     },
     {
-        "id": "55f266ba8c3d5f75",
+        "id": "a086e67778acdd26",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG Umidade",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 650,
-        "y": 160,
+        "x": 770,
+        "y": 200,
         "wires": []
     },
     {
-        "id": "55119d175b76b3f5",
+        "id": "c62e4a32c51a2923",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG Peso",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 650,
-        "y": 200,
+        "x": 760,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "88b0860cb10d8ec5",
+        "id": "c2194cfb9cff89fb",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG Alertas",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 870,
+        "x": 1380,
         "y": 60,
         "wires": []
     },
     {
-        "id": "b6dc0a85b9aeab85",
+        "id": "1ff611660d32e30d",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG Vacinas",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 650,
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
         "y": 480,
         "wires": []
     },
     {
-        "id": "242e49134962c028",
+        "id": "ba6008e715f9cfe6",
         "type": "debug",
-        "z": "9b732deb6dd27115",
+        "z": "5d9c28597954a336",
         "name": "DEBUG WhatsApp",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 1080,
+        "x": 1370,
         "y": 460,
         "wires": []
     },
     {
-        "id": "9e82a8bff3bec555",
+        "id": "2d164068c2e8fd2a",
         "type": "debug",
-        "z": "9b732deb6dd27115",
-        "name": "DEBUG Risco IA",
+        "z": "5d9c28597954a336",
+        "name": "DEBUG Recomendações IA",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 870,
+        "x": 1080,
         "y": 540,
         "wires": []
     },
     {
-        "id": "9a2fc89ef77bd12b",
+        "id": "e17c0363d6219579",
         "type": "global-config",
         "env": [],
         "modules": {
