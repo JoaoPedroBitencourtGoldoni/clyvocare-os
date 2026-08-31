@@ -165,7 +165,7 @@ Assim, pets diferentes podem receber recomendações diferentes mesmo sendo aval
 ## 🏗️ Arquitetura
 
 ```text
-┌───────────────────────────────────────────────────────────────── ┐
+┌──────────────────────────────────────────────────────────────────┐
 │                         ClyvoCare OS                             │
 │                                                                  │
 │   ┌──────────────┐                         ┌──────────────────┐  │
