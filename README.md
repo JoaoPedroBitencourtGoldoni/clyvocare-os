@@ -526,7 +526,6 @@ Os arquivos com os links do GitHub e do vídeo são incluídos no `.zip` final d
 - 💻 **Repositório:** https://github.com/JoaoPedroBitencourtGoldoni/clyvocare-os
 - 📺 **Vídeo Pitch Sprint 3:** `SUBSTITUIR_PELO_LINK_DO_VIDEO_NAO_LISTADO`
 - 🐾 **Dashboard Node-RED:** `http://localhost:1880/ui`
-- 🐾 **Dashboard Web:** `dashboard/clyvocare-dashboard.html`
 
 ---
 
