@@ -1,93 +1,238 @@
 # 🐾 ClyvoCare OS — Sistema de Saúde do Pet
 
-> **IoT + MQTT + IA para saúde preventiva de pets**  
+> **IoT + MQTT + IA para saúde preventiva de pets**
 > Protótipo acadêmico — FIAP · Disruptive Architectures: IoT, IoB & Generative IA
 
 ---
 
 ## 📋 Sumário
 
-- [O Problema](#-o-problema)
-- [A Solução](#-a-solução)
-- [Arquitetura](#-arquitetura)
-- [Tecnologias](#-tecnologias)
-- [Componentes IoT](#-componentes-iot)
-- [Como Executar](#-como-executar)
-- [Node-RED: Importar Flow](#-node-red-importar-flow)
-- [Tópicos MQTT](#-tópicos-mqtt)
-- [Estrutura do Repositório](#-estrutura-do-repositório)
-- [Resultados Parciais](#-resultados-parciais)
-- [Equipe](#-equipe)
+* [O Problema](#-o-problema)
+* [A Solução](#-a-solução)
+* [Componente de Inteligência Artificial](#-componente-de-inteligência-artificial)
+* [Dados Utilizados pela IA](#-dados-utilizados-pela-ia)
+* [Arquitetura](#️-arquitetura)
+* [Tecnologias](#️-tecnologias)
+* [Componentes IoT](#-componentes-iot)
+* [Como Executar](#-como-executar)
+* [Tópicos MQTT](#-tópicos-mqtt)
+* [Estrutura do Repositório](#-estrutura-do-repositório)
+* [Resultados Parciais](#-resultados-parciais)
+* [Equipe](#-equipe)
+* [Links](#-links)
 
 ---
 
 ## 🔴 O Problema
 
-No Brasil, **mais de 140 milhões de pets** dependem de cuidados de saúde preventiva. O principal problema:
+Durante a jornada de cuidado do pet, diversas informações importantes são geradas, como histórico clínico, vacinas, consultas, medicamentos e alterações de comportamento.
 
-- **Tutores esquecem** datas de vacinas, vermifugação e consultas de rotina
-- **Clínicas não têm visibilidade** sobre o histórico completo dos pacientes
-- **Doenças regionais** (Leishmaniose, Parvovirose) se espalham por falta de monitoramento coletivo
-- **Fase de vida** do animal (filhote, adulto, idoso) determina cuidados diferentes — quase sempre ignorados
+O problema é que essas informações nem sempre são transformadas em ações no momento correto.
+
+Entre os principais desafios estão:
+
+* Tutores podem esquecer datas de vacinas e consultas.
+* Clínicas precisam acompanhar o histórico e as pendências de cada paciente.
+* Pets possuem necessidades diferentes de acordo com idade e fase de vida.
+* Alterações de comportamento podem passar despercebidas.
+* Informações clínicas precisam ser analisadas de forma conjunta para apoiar a continuidade do cuidado.
 
 ---
 
 ## 💡 A Solução
 
-**ClyvoCare OS** é um sistema IoT + IA que monitora a saúde do pet em tempo real e automatiza os cuidados:
+O **ClyvoCare OS** é uma solução que integra IoT, MQTT, Node-RED e Inteligência Artificial para apoiar o acompanhamento contínuo da saúde do pet.
 
-| Funcionalidade | Como funciona |
-|---|---|
-| 🌡️ Sensores IoT | ESP32 com DHT22 e sensores envia dados via MQTT |
-| 📊 Dashboard | Interface web em tempo real com alertas visuais |
-| 💉 Calendário Vacinal | Alertas automáticos por fase de vida do pet |
-| 📱 WhatsApp | Lembretes automáticos disparados pelo Node-RED |
-| 🗺️ Risco Regional IA | Análise de doenças por zona geográfica |
-| 🏥 Histórico Clínico | Dados centralizados para clínicas |
+| Funcionalidade             | Como funciona                                              |
+| -------------------------- | ---------------------------------------------------------- |
+| 🌡️ Sensores IoT           | ESP32 coleta informações e envia os dados via MQTT         |
+| 📊 Dashboard               | Interface para visualização dos dados e alertas            |
+| 💉 Calendário Vacinal      | Identifica vacinas próximas do vencimento ou atrasadas     |
+| 🧠 Inteligência Artificial | Analisa os dados do pet e gera recomendações priorizadas   |
+| 🔔 Alertas                 | Informa situações que precisam de atenção                  |
+| 🏥 Histórico Clínico       | Centraliza informações utilizadas no acompanhamento do pet |
+
+A Inteligência Artificial complementa a solução transformando os dados disponíveis em recomendações personalizadas para tutores e clínicas.
+
+---
+
+## 🧠 Componente de Inteligência Artificial
+
+Para a Sprint 3 foi adotado um **Motor de Regras Inteligentes**.
+
+Essa abordagem foi escolhida porque os dados disponíveis no ClyvoCare são predominantemente estruturados, como datas de vacinas, consultas, tratamentos, fase de vida e informações de comportamento.
+
+O motor analisa essas informações e gera recomendações com níveis de prioridade.
+
+### Problema tratado pela IA
+
+O componente de IA busca identificar quais cuidados devem ser priorizados para cada pet.
+
+Entre as situações analisadas estão:
+
+* Vacinas atrasadas ou próximas do vencimento.
+* Retornos clínicos pendentes.
+* Alterações relevantes de comportamento.
+* Intervalo desde a última consulta preventiva.
+* Fase de vida do animal.
+
+### Funcionamento
+
+O fluxo básico da análise é:
+
+```text
+Dados do Pet
+      ↓
+Motor de Regras Inteligentes
+      ↓
+Análise das condições
+      ↓
+Cálculo de Score
+      ↓
+Classificação de prioridade
+      ↓
+Recomendações personalizadas
+```
+
+Cada situação identificada recebe uma pontuação.
+
+As recomendações são então ordenadas de acordo com sua prioridade, permitindo que tutor e clínica visualizem primeiro os cuidados que precisam de maior atenção.
+
+### Exemplo de resultado
+
+Para um pet com vacina atrasada, retorno clínico pendente e alteração de comportamento, o sistema pode produzir:
+
+```json
+{
+  "pet": "Thor",
+  "recomendacoes": [
+    {
+      "tipo": "VACINA",
+      "prioridade": "ALTA",
+      "score": 93,
+      "acao": "Agendar reforço da vacina contra Raiva"
+    },
+    {
+      "tipo": "RETORNO_CLINICO",
+      "prioridade": "ALTA",
+      "score": 90,
+      "acao": "Agendar retorno clínico"
+    },
+    {
+      "tipo": "COMPORTAMENTO",
+      "prioridade": "MEDIA",
+      "score": 80,
+      "acao": "Avaliar alteração no nível de atividade"
+    },
+    {
+      "tipo": "CONSULTA_PREVENTIVA",
+      "prioridade": "MEDIA",
+      "score": 70,
+      "acao": "Agendar consulta preventiva"
+    }
+  ]
+}
+```
+
+O componente funciona como **apoio à tomada de decisão** e não realiza diagnóstico veterinário.
+
+---
+
+## 📚 Dados Utilizados pela IA
+
+A Inteligência Artificial utiliza dados relacionados ao histórico e ao contexto individual de cada pet.
+
+| Dado                       | Origem                | Utilização                                     |
+| -------------------------- | --------------------- | ---------------------------------------------- |
+| Perfil do pet              | Cadastro da aplicação | Identificação de espécie, idade e fase de vida |
+| Histórico clínico          | Sistema da clínica    | Contexto dos atendimentos realizados           |
+| Vacinas                    | Cadastro e histórico  | Verificação de vacinas atrasadas ou próximas   |
+| Consultas                  | Histórico clínico     | Identificação do intervalo entre atendimentos  |
+| Medicamentos e tratamentos | Histórico clínico     | Verificação de tratamentos e retornos          |
+| Comportamento              | Tutor e sensores      | Identificação de mudanças relevantes           |
+| Atividade                  | Sensores IoT          | Apoio à análise do comportamento               |
+
+### Personalização
+
+As recomendações são personalizadas de acordo com as características e o histórico de cada animal.
+
+A fase de vida, por exemplo, pode alterar a frequência esperada de acompanhamento preventivo.
+
+Assim, pets diferentes podem receber recomendações diferentes mesmo sendo avaliados pelo mesmo motor de regras.
 
 ---
 
 ## 🏗️ Arquitetura
 
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                         ClyvoCare OS                             │
+│                                                                 │
+│   ┌──────────────┐                         ┌──────────────────┐  │
+│   │ Tutor /      │                         │      Clínica     │  │
+│   │ Aplicação    │                         │                  │  │
+│   └──────┬───────┘                         └────────┬─────────┘  │
+│          │                                          │            │
+│          └──────────────────┬───────────────────────┘            │
+│                             ↓                                    │
+│                       ┌───────────┐                              │
+│                       │ Aplicação │                              │
+│                       │ / API     │                              │
+│                       └─────┬─────┘                              │
+│                             │                                    │
+│                  ┌──────────┴──────────┐                         │
+│                  ↓                     ↓                         │
+│            ┌───────────┐      ┌────────────────────┐             │
+│            │ Banco de  │      │ Motor de Regras   │             │
+│            │ Dados     │      │ Inteligentes      │             │
+│            └───────────┘      └─────────┬──────────┘             │
+│                                        │                        │
+│                                        ↓                        │
+│                              Recomendações priorizadas           │
+│                                                                 │
+│   ┌──────────┐     MQTT      ┌──────────┐                        │
+│   │ ESP32    │ ────────────► │ HiveMQ   │                        │
+│   │ Wokwi    │               │ Broker   │                        │
+│   └──────────┘               └────┬─────┘                        │
+│                                   │                              │
+│                                   ↓                              │
+│                              ┌──────────┐                        │
+│                              │ Node-RED │                        │
+│                              └────┬─────┘                        │
+│                                   │                              │
+│                                   ↓                              │
+│                           Dashboard / Alertas                    │
+└─────────────────────────────────────────────────────────────────┘
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    ClyvoCare OS                         │
-│                                                         │
-│  ┌──────────┐    MQTT     ┌──────────┐    HTTP          │
-│  │  ESP32   │ ──────────► │ HiveMQ   │ ──────────►      │
-│  │  Wokwi   │             │  Broker  │                  │
-│  └──────────┘             └────┬─────┘                  │
-│       ↑                        │ MQTT Subscribe         │
-│  DHT22│PIR│POT                 ↓                        │
-│  Buzzer│LEDs            ┌──────────────┐                │
-│                         │  Node-RED    │                │
-│                         │  Flow        │                │
-│                         └──────┬───────┘                │
-│                                │                        │
-│                    ┌───────────┼───────────┐            │
-│                    ↓           ↓           ↓            │
-│              ┌──────────┐ ┌────────┐ ┌──────────┐       │
-│              │Dashboard │ │WhatsApp│ │  Alertas │       │
-│              │  Web     │ │  API   │ │  MQTT    │       │
-│              └──────────┘ └────────┘ └──────────┘       │
-└─────────────────────────────────────────────────────────┘
-```
+
+### Fluxo de dados
+
+1. O tutor e a clínica utilizam a aplicação ClyvoCare.
+2. Os dados do pet são registrados e consultados pela aplicação.
+3. As informações são armazenadas no banco de dados.
+4. Os sensores IoT enviam dados do ESP32 por MQTT.
+5. O HiveMQ recebe as mensagens.
+6. O Node-RED processa e organiza os dados e alertas.
+7. Os dados necessários são enviados ao Motor de Regras Inteligentes.
+8. A IA analisa as informações e gera recomendações priorizadas.
+9. As recomendações são disponibilizadas para tutor e clínica.
 
 ---
 
 ## 🛠️ Tecnologias
 
-| Tecnologia | Uso no Projeto |
-|---|---|
-| **ESP32** (Wokwi) | Microcontrolador principal, coleta sensores |
-| **DHT22** | Temperatura e umidade do ambiente do pet |
-| **Potenciômetro** | Simula célula de carga (peso do pet) |
-| **PIR HC-SR501** | Detecção de movimento/atividade do pet |
-| **Buzzer** | Alerta sonoro local em caso de temperatura crítica |
-| **MQTT (HiveMQ)** | Protocolo de mensageria IoT — publicação e subscrição |
-| **Node-RED** | Orquestração de fluxos: processa dados, gera alertas |
-| **Arduino JSON** | Serialização de dados do ESP32 |
-| **Dashboard HTML/CSS/JS** | Visualização em tempo real dos dados |
+| Tecnologia                       | Uso no Projeto                                        |
+| -------------------------------- | ----------------------------------------------------- |
+| **ESP32 (Wokwi)**                | Microcontrolador responsável pela coleta dos sensores |
+| **DHT22**                        | Coleta de temperatura e umidade                       |
+| **Potenciômetro**                | Simulação de leitura relacionada ao peso              |
+| **PIR HC-SR501**                 | Detecção de movimento e atividade                     |
+| **Buzzer**                       | Alerta sonoro                                         |
+| **MQTT (HiveMQ)**                | Comunicação entre os componentes IoT                  |
+| **Node-RED**                     | Orquestração dos fluxos, processamento e regras       |
+| **Motor de Regras Inteligentes** | Análise e priorização das recomendações               |
+| **ArduinoJson**                  | Serialização dos dados do ESP32                       |
+| **HTML/CSS/JavaScript**          | Dashboard web                                         |
 
 ---
 
@@ -95,22 +240,22 @@ No Brasil, **mais de 140 milhões de pets** dependem de cuidados de saúde preve
 
 ### Sensores utilizados
 
-| Sensor | Pino ESP32 | O que mede |
-|---|---|---|
-| DHT22 | GPIO 4 | Temperatura corporal e umidade |
-| Potenciômetro | GPIO 34 (ADC) | Peso do pet (0–50 kg simulado) |
-| PIR HC-SR501 | GPIO 18 | Movimento / atividade física |
-| Buzzer | GPIO 19 | Alerta sonoro (saída) |
-| LED Verde | GPIO 2 | Status da conexão |
-| LED Vermelho | GPIO 5 | Alerta crítico ativo |
+| Sensor        | Pino ESP32    | Função                |
+| ------------- | ------------- | --------------------- |
+| DHT22         | GPIO 4        | Temperatura e umidade |
+| Potenciômetro | GPIO 34 (ADC) | Simulação de peso     |
+| PIR HC-SR501  | GPIO 18       | Movimento e atividade |
+| Buzzer        | GPIO 19       | Alerta sonoro         |
+| LED Verde     | GPIO 2        | Status da conexão     |
+| LED Vermelho  | GPIO 5        | Indicação de alerta   |
 
 ### Parâmetros de alerta
 
-| Parâmetro | Faixa Normal | Alerta |
-|---|---|---|
-| Temperatura (cão) | 37.5°C – 39.2°C | < 37.5°C ou > 39.2°C |
-| Umidade ambiente | 40% – 75% | > 75% |
-| Peso (referência) | Ajustável por porte | Desvio > 10% |
+| Parâmetro   | Faixa Normal            | Alerta               |
+| ----------- | ----------------------- | -------------------- |
+| Temperatura | 37.5°C – 39.2°C         | < 37.5°C ou > 39.2°C |
+| Umidade     | 40% – 75%               | > 75%                |
+| Peso        | Referência configurável | Desvio > 10%         |
 
 ---
 
@@ -118,67 +263,112 @@ No Brasil, **mais de 140 milhões de pets** dependem de cuidados de saúde preve
 
 ### 1. Simular no Wokwi
 
-1. Acesse [wokwi.com](https://wokwi.com) → "New Project" → ESP32
-2. Substitua o `sketch.ino` pelo arquivo `clyvocare-esp32.ino`
-3. Cole o conteúdo de `clyvocare-wokwi-diagram.json` em `diagram.json`
-4. Clique em ▶ **Start Simulation**
-5. Veja os dados sendo publicados no Serial Monitor
+1. Acesse [wokwi.com](https://wokwi.com).
+2. Crie um projeto utilizando ESP32.
+3. Substitua o `sketch.ino` pelo conteúdo de `clyvocare-esp32.ino`.
+4. Cole o conteúdo de `clyvocare-wokwi-diagram.json` no arquivo `diagram.json`.
+5. Clique em **Start Simulation**.
+6. Acompanhe os dados pelo Serial Monitor.
 
-> **Importante:** No Wokwi, use a porta 1883 (sem TLS). Para produção real, use 8883 com TLS.
+> No Wokwi é utilizada a porta MQTT 1883 sem TLS.
 
 ### 2. Configurar Node-RED
 
-**Pré-requisitos:**
-```bash
-# Instalar Node-RED
-npm install -g --unsafe-perm node-red
+Pré-requisitos:
 
-# Iniciar
-node-red
-# Acesse: http://localhost:1880
+```bash
+npm install -g --unsafe-perm node-red
 ```
 
-**Instalar paleta dashboard:**
-1. Menu → Manage Palette → Install
-2. Buscar e instalar: `node-red-dashboard`
-3. Acessar dashboard em: `http://localhost:1880/ui`
+Inicie o Node-RED:
 
-### 3. Importar Flow Node-RED
+```bash
+node-red
+```
 
-1. Abrir Node-RED → Menu (☰) → **Import**
-2. Colar conteúdo de `clyvocare-nodered-flow.json`
-3. Clicar em **Import**
-4. **Configurar credenciais HiveMQ:**
-   - Dar duplo clique no nó `HiveMQ Broker`
-   - Preencher: Broker `broker.hivemq.com`, Porta `8883`
-   - Adicionar usuário e senha (se usar HiveMQ Cloud)
-5. Clicar em **Deploy**
+Acesse:
 
-### 4. Visualizar Dashboard
+```text
+http://localhost:1880
+```
 
-Abra no navegador:
-- **Dashboard Node-RED:** `http://localhost:1880/ui`
-- **Dashboard Custom:** Abrir arquivo `clyvocare-dashboard.html` diretamente no navegador
+### 3. Instalar o Dashboard
+
+No Node-RED:
+
+1. Menu → **Manage Palette**.
+2. Selecione **Install**.
+3. Procure por:
+
+```text
+node-red-dashboard
+```
+
+4. Instale a biblioteca.
+
+O dashboard estará disponível em:
+
+```text
+http://localhost:1880/ui
+```
+
+### 4. Importar o Flow
+
+1. Abra o Node-RED.
+2. Acesse Menu → **Import**.
+3. Selecione o arquivo:
+
+```text
+node-red/clyvocare-nodered-flow.json
+```
+
+4. Clique em **Import**.
+5. Configure o broker MQTT caso necessário.
+6. Clique em **Deploy**.
+
+### 5. Testar a Inteligência Artificial
+
+No flow importado:
+
+1. Localize o nó **Dados do Pet — Demonstração IA**.
+2. Localize o nó **Motor de Regras Inteligentes**.
+3. Abra a aba **Debug** do Node-RED.
+4. Clique no botão do nó de demonstração.
+5. Observe no Debug as recomendações geradas e ordenadas por prioridade.
+
+### 6. Visualizar o Dashboard
+
+Dashboard Node-RED:
+
+```text
+http://localhost:1880/ui
+```
+
+Dashboard web:
+
+```text
+dashboard/clyvocare-dashboard.html
+```
 
 ---
 
 ## 📡 Tópicos MQTT
 
-| Tópico | Direção | Payload | Descrição |
-|---|---|---|---|
-| `clyvocare/esp32/temperatura` | ESP32 → | `38.4` | Temperatura em °C |
-| `clyvocare/esp32/umidade` | ESP32 → | `72.1` | Umidade em % |
-| `clyvocare/esp32/peso` | ESP32 → | `12.3` | Peso em kg |
-| `clyvocare/esp32/movimento` | ESP32 → | `0` ou `1` | PIR detectou movimento |
-| `clyvocare/esp32/status` | ESP32 → | JSON | Status completo do dispositivo |
-| `clyvocare/alertas/critico` | Node-RED → | JSON | Alerta de temperatura crítica |
-| `clyvocare/alertas/vacinas` | Node-RED → | JSON | Alerta de vacinas vencidas |
-| `clyvocare/ia/risco-regional` | Node-RED → | JSON | Análise de risco por região |
-| `clyvocare/historico` | Node-RED → | JSON | Histórico dos sensores |
-| `clyvocare/cmd/buzzer` | → ESP32 | `ON` | Aciona buzzer remotamente |
-| `clyvocare/status` | ESP32 → | string | Online/Offline |
+| Tópico                        | Direção          | Payload    | Descrição                       |
+| ----------------------------- | ---------------- | ---------- | ------------------------------- |
+| `clyvocare/esp32/temperatura` | ESP32 → Node-RED | `38.4`     | Temperatura                     |
+| `clyvocare/esp32/umidade`     | ESP32 → Node-RED | `72.1`     | Umidade                         |
+| `clyvocare/esp32/peso`        | ESP32 → Node-RED | `12.3`     | Peso simulado                   |
+| `clyvocare/esp32/movimento`   | ESP32 → Node-RED | `0` ou `1` | Detecção de movimento           |
+| `clyvocare/esp32/status`      | ESP32 → Node-RED | JSON       | Estado completo do dispositivo  |
+| `clyvocare/alertas/critico`   | Node-RED → MQTT  | JSON       | Alerta crítico                  |
+| `clyvocare/alertas/vacinas`   | Node-RED → MQTT  | JSON       | Alertas relacionados às vacinas |
+| `clyvocare/historico`         | Node-RED → MQTT  | JSON       | Histórico dos sensores          |
+| `clyvocare/cmd/buzzer`        | Node-RED → ESP32 | `ON`       | Acionamento remoto do buzzer    |
+| `clyvocare/status`            | ESP32 → MQTT     | string     | Status online/offline           |
 
-**Exemplo de payload de status completo:**
+### Exemplo de payload
+
 ```json
 {
   "device": "clyvocare-esp32-001",
@@ -195,22 +385,24 @@ Abra no navegador:
 
 ## 📁 Estrutura do Repositório
 
-```
+```text
 clyvocare-os/
 │
 ├── firmware/
-│   ├── clyvocare-esp32.ino          # Código principal ESP32
-│   └── clyvocare-wokwi-diagram.json # Diagrama de circuito Wokwi
+│   ├── clyvocare-esp32.ino
+│   └── clyvocare-wokwi-diagram.json
 │
 ├── node-red/
-│   └── clyvocare-nodered-flow.json  # Flow completo para importar
+│   └── clyvocare-nodered-flow.json
 │
 ├── dashboard/
-│   └── clyvocare-dashboard.html     # Dashboard web standalone
+│   └── clyvocare-dashboard.html
 │
 ├── docs/
-│   ├── arquitetura.png              # Diagrama de arquitetura
-│   └── demo-screenshot.png         # Screenshot do sistema
+│   └── arquitetura.png
+│
+├── Video/
+│   └── Link Video.txt
 │
 └── README.md
 ```
@@ -220,43 +412,39 @@ clyvocare-os/
 ## 📊 Resultados Parciais
 
 ### ✅ Implementado
-- [x] ESP32 simulado no Wokwi com DHT22, PIR, Buzzer, LEDs
-- [x] Publicação de dados via MQTT no HiveMQ (tópicos estruturados)
-- [x] Flow Node-RED completo com processamento de alertas
-- [x] Lógica de verificação de vacinas com calendário por fase de vida
-- [x] Análise de risco regional simulada (base para IA futura)
-- [x] Dashboard web com feed MQTT em tempo real simulado
-- [x] Alertas automáticos para temperatura crítica
-- [x] Estrutura para integração WhatsApp via Node-RED
 
-### 🔄 Próximos Passos
-- [ ] Integrar API real de WhatsApp (Twilio/Z-API)
-- [ ] Conectar IA generativa (Claude API) para análise de risco regional real
-- [ ] App mobile com React Native
-- [ ] Banco de dados persistente (PostgreSQL/MongoDB)
-- [ ] Autenticação de clínicas e tutores
-- [ ] Câmera + visão computacional para detecção de comportamento
+* [x] Simulação ESP32 no Wokwi.
+* [x] Sensores DHT22, PIR e potenciômetro.
+* [x] Comunicação MQTT utilizando HiveMQ.
+* [x] Processamento dos dados pelo Node-RED.
+* [x] Dashboard para visualização das informações.
+* [x] Alertas relacionados aos sensores.
+* [x] Verificação de vacinas.
+* [x] Motor de Regras Inteligentes.
+* [x] Priorização de recomendações por score.
+* [x] Personalização de acordo com os dados do pet.
+* [x] Demonstração simulada do componente de IA.
 
 ---
 
 ## 👥 Equipe
 
-| Nome | RM |
-|---|---|
-| Felipe Maglio Filho | 563512 |
+| Nome                          |     RM |
+| ----------------------------- | -----: |
+| Felipe Maglio Filho           | 563512 |
 | João Pedro Bitencourt Goldoni | 564339 |
-| Marina Tamagnini Magalhães | 561786 |
-| Mateus Granja Dos Santos | 564930 |
-| Vitória Valentina Maglio | 563509 |
+| Marina Tamagnini Magalhães    | 561786 |
+| Mateus Granja dos Santos      | 564930 |
+| Vitória Valentina Maglio      | 563509 |
 
 ---
 
 ## 🎬 Links
 
-- 📺 **Vídeo Pitch:** [https://www.youtube.com/watch?v=zooWeNgxlFM](https://www.youtube.com/watch?v=zooWeNgxlFM)
-- 💻 **Repositório:** [GitHub](#)
-- 🐾 **Dashboard Live:** Abrir `clyvocare-dashboard.html`
+* 📺 **Vídeo Pitch:** [YouTube — não listado](SUBSTITUIR_PELO_LINK_DO_VIDEO_DA_SPRINT_3)
+* 💻 **Repositório:** [GitHub](SUBSTITUIR_PELO_LINK_DO_REPOSITORIO)
+* 🐾 **Dashboard:** `dashboard/clyvocare-dashboard.html`
 
 ---
 
-*Projeto desenvolvido para a disciplina **Disruptive Architectures: IoT, IoB & Generative IA** — FIAP 2026.*
+*Projeto desenvolvido para a disciplina **Disruptive Architectures: IoT, IoB & Generative IA — FIAP 2026**.*
