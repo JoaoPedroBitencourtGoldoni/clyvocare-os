@@ -1,0 +1,46 @@
+{
+  "pet": {
+    "id": "pet-001",
+    "nome": "Thor",
+    "especie": "cao",
+    "faseVida": "adulto"
+  },
+  "abordagemIA": "Motor de regras inteligentes",
+  "estrategiaPersonalizacao": "Regras ajustadas por fase de vida e contexto individual do pet",
+  "totalRecomendacoes": 4,
+  "recomendacoes": [
+    {
+      "servico": "Vacinação",
+      "acao": "Agendar reforço de Raiva",
+      "score": 93,
+      "prioridade": "ALTA",
+      "motivo": "Raiva está atrasada há 16 dia(s).",
+      "dadosUtilizados": ["vacinas", "perfil"]
+    },
+    {
+      "servico": "Retorno clínico",
+      "acao": "Agendar retorno do tratamento em andamento",
+      "score": 90,
+      "prioridade": "ALTA",
+      "motivo": "Data de retorno registrada passou há 11 dia(s).",
+      "dadosUtilizados": ["medicamentos", "historicoClinico"]
+    },
+    {
+      "servico": "Avaliação veterinária",
+      "acao": "Sugerir avaliação por mudança de comportamento",
+      "score": 80,
+      "prioridade": "MEDIA",
+      "motivo": "Atividade reduziu 35% em relação ao padrão registrado.",
+      "dadosUtilizados": ["comportamento", "perfil"]
+    },
+    {
+      "servico": "Consulta preventiva",
+      "acao": "Agendar consulta de rotina",
+      "score": 70,
+      "prioridade": "MEDIA",
+      "motivo": "Pet adulto está há 211 dias sem consulta; referência usada: 180 dias.",
+      "dadosUtilizados": ["perfil", "consultas", "historicoClinico"]
+    }
+  ],
+  "aviso": "As recomendações apoiam a decisão e não substituem avaliação veterinária."
+}

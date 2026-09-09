@@ -10,6 +10,7 @@
 - [O Problema](#-o-problema)
 - [A Solução](#-a-solução)
 - [Componente de Inteligência Artificial](#-componente-de-inteligência-artificial)
+- [Evidências Técnicas da IA](#-evidências-técnicas-da-ia)
 - [Benefícios da IA](#-benefícios-da-ia)
 - [Dados Utilizados pela IA](#-dados-utilizados-pela-ia)
 - [Arquitetura de Integração](#️-arquitetura-de-integração)
@@ -112,6 +113,17 @@ Cada recomendação recebe um **score**. O score é convertido em prioridade:
 
 As recomendações são ordenadas do maior para o menor score.
 
+### Regras e scores implementados
+
+| Regra | Condição principal | Score | Personalização / justificativa |
+|---|---|---:|---|
+| Vacinação | Vacina atrasada | `min(100, 85 + min(diasAtraso,30)/2)` | Prioridade cresce com o atraso |
+| Consulta preventiva | Intervalo acima da referência | `70` | Referência: filhote 90d, adulto 180d, idoso 120d |
+| Retorno clínico | Tratamento ativo com retorno vencido | `90` | Usa tratamento e histórico individual |
+| Comportamento | Queda de atividade `<= -30%` | `80` | Usa comportamento/IoT do próprio pet |
+
+Os pesos e limiares são **heurísticos do protótipo acadêmico**. Em uma implantação real, devem ser calibrados e validados por profissionais veterinários.
+
 ### Fluxo lógico da IA
 
 ```text
@@ -189,6 +201,27 @@ A análise gera quatro recomendações ordenadas por prioridade.
   ]
 }
 ```
+
+---
+
+## 🔎 Evidências Técnicas da IA
+
+Além do resumo deste README, a documentação técnica foi separada para facilitar a avaliação e a rastreabilidade:
+
+| Documento / evidência | Conteúdo |
+|---|---|
+| [`docs/IA-ESPECIFICACAO.md`](docs/IA-ESPECIFICACAO.md) | problema, comparação de abordagens, regras, scoring, personalização, explicabilidade, guardrails e limitações |
+| [`docs/ARQUITETURA-IA.md`](docs/ARQUITETURA-IA.md) | arquitetura, sequência e separação entre o que está implementado e o que é integração proposta |
+| [`docs/DADOS-IA.md`](docs/DADOS-IA.md) | dicionário de entrada/saída, origem, tipos, utilização, qualidade e privacidade |
+| [`docs/VALIDACAO-IA.md`](docs/VALIDACAO-IA.md) | casos de teste e resultados esperados para validar regras e limiares |
+| [`docs/MATRIZ-REQUISITOS.md`](docs/MATRIZ-REQUISITOS.md) | rastreabilidade direta entre enunciado e evidências do projeto |
+| [`docs/CHECKLIST-ENTREGA.md`](docs/CHECKLIST-ENTREGA.md) | conferência final por categoria de avaliação e entregáveis |
+| [`examples/ia-input-thor.json`](examples/ia-input-thor.json) | exemplo reproduzível de entrada |
+| [`examples/ia-output-thor.json`](examples/ia-output-thor.json) | exemplo de saída priorizada e explicável |
+
+### Por que não foi usado LLM/modelo preditivo nesta etapa?
+
+O Motor de Regras foi escolhido por adequação técnica: os dados atuais são estruturados, os critérios são objetivos e a Sprint não possui dataset clínico rotulado suficiente para treinar e validar um modelo preditivo. Um LLM poderia ser incorporado futuramente apenas para **explicar** resultados em linguagem natural, mantendo o motor determinístico como fonte dos fatos e utilizando guardrails para evitar orientação clínica livre.
 
 ---
 
@@ -292,6 +325,15 @@ flowchart LR
 6. Os dados estruturados do pet são encaminhados ao Motor de Regras Inteligentes.
 7. O motor aplica as regras, calcula os scores e ordena as recomendações.
 8. As recomendações podem ser disponibilizadas à aplicação, tutor e clínica.
+
+### Status da integração
+
+Para não confundir **protótipo implementado** com **arquitetura de evolução**, a solução é apresentada em dois níveis:
+
+- **Implementado e demonstrável nesta Sprint:** ESP32/Wokwi → MQTT/HiveMQ → Node-RED → processamento/alertas → Motor de Regras → Debug e publicação em `clyvocare/ia/recomendacoes`. A entrada clínica da IA é simulada pelo nó **Dados do Pet — Demonstração IA**.
+- **Arquitetura proposta para continuidade:** Aplicação ↔ API ↔ Banco de Dados ↔ componente de IA, com persistência e apresentação das recomendações para tutor e clínica.
+
+Essa distinção garante transparência sobre os resultados parciais sem superestimar a integração atual.
 
 ---
 
@@ -480,10 +522,28 @@ clyvocare-os/
 ├── dashboard/
 │   └── clyvocare-dashboard.html
 │
+├── docs/
+│   ├── IA-ESPECIFICACAO.md
+│   ├── ARQUITETURA-IA.md
+│   ├── DADOS-IA.md
+│   ├── VALIDACAO-IA.md
+│   ├── MATRIZ-REQUISITOS.md
+│   ├── CHECKLIST-ENTREGA.md
+│   └── ROTEIRO-VIDEO.md
+│
+├── examples/
+│   ├── ia-input-thor.json
+│   └── ia-output-thor.json
+│
+├── Github/
+│   └── Link Github.txt
+├── Video/
+│   └── Link Video.txt
+├── .gitignore
 └── README.md
 ```
 
-Os arquivos com os links do GitHub e do vídeo são incluídos no `.zip` final da entrega.
+O `.zip` de entrega não precisa conter a pasta `.git/`; o histórico permanece no GitHub e a remoção deixa o pacote final mais limpo.
 
 ---
 
@@ -506,6 +566,11 @@ Os arquivos com os links do GitHub e do vídeo são incluídos no `.zip` final d
 - [x] Recomendação de vacinação, retorno clínico, avaliação e consulta preventiva.
 - [x] Publicação das recomendações em MQTT.
 - [x] Demonstração funcional simulada do componente de IA.
+- [x] Documentação técnica da abordagem e justificativa de escolha.
+- [x] Dicionário de dados de entrada e saída da IA.
+- [x] Plano de validação com casos de teste e resultados esperados.
+- [x] Matriz de rastreabilidade entre requisitos e evidências.
+- [x] Separação explícita entre integração implementada e arquitetura proposta.
 
 ---
 
@@ -524,7 +589,7 @@ Os arquivos com os links do GitHub e do vídeo são incluídos no `.zip` final d
 ## 🎬 Links
 
 - 💻 **Repositório:** https://github.com/JoaoPedroBitencourtGoldoni/clyvocare-os
-- 📺 **Vídeo Pitch Sprint 3:** `SUBSTITUIR_PELO_LINK_DO_VIDEO_NAO_LISTADO`
+- 📺 **Vídeo Pitch Sprint 3:** https://www.youtube.com/watch?v=zooWeNgxlFM
 - 🐾 **Dashboard Node-RED:** `http://localhost:1880/ui`
 - 🐾 **Dashboard Web:** `dashboard/clyvocare-dashboard.html`
 

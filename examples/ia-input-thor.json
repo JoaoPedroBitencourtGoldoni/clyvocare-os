@@ -1,0 +1,47 @@
+{
+  "dataReferencia": "2026-08-31",
+  "perfil": {
+    "id": "pet-001",
+    "nome": "Thor",
+    "especie": "cao",
+    "idadeAnos": 3,
+    "faseVida": "adulto"
+  },
+  "historicoClinico": [
+    {
+      "data": "2026-03-10",
+      "tipo": "consulta",
+      "observacao": "acompanhamento de rotina"
+    }
+  ],
+  "vacinas": [
+    {
+      "nome": "Raiva",
+      "proximaDose": "2026-08-15",
+      "status": "atrasada"
+    },
+    {
+      "nome": "V10",
+      "proximaDose": "2027-01-10",
+      "status": "em_dia"
+    }
+  ],
+  "consultas": [
+    {
+      "data": "2026-02-01",
+      "tipo": "rotina"
+    }
+  ],
+  "medicamentos": [
+    {
+      "nome": "Tratamento prescrito",
+      "status": "ativo",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-08-20"
+    }
+  ],
+  "comportamento": {
+    "variacaoAtividadePercentual": -35,
+    "origem": "PIR IoT + registro do tutor"
+  }
+}
