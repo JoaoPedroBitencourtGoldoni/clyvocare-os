@@ -589,7 +589,7 @@ O `.zip` de entrega não precisa conter a pasta `.git/`; o histórico permanece 
 ## 🎬 Links
 
 - 💻 **Repositório:** https://github.com/JoaoPedroBitencourtGoldoni/clyvocare-os
-- 📺 **Vídeo Pitch Sprint 3:** https://www.youtube.com/watch?v=zooWeNgxlFM
+- 📺 **Vídeo Pitch Sprint 3:** https://youtu.be/xaL6Z8EyFxg
 - 🐾 **Dashboard Node-RED:** `http://localhost:1880/ui`
 - 🐾 **Dashboard Web:** `dashboard/clyvocare-dashboard.html`
 
