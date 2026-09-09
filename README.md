@@ -214,8 +214,6 @@ Além do resumo deste README, a documentação técnica foi separada para facili
 | [`docs/ARQUITETURA-IA.md`](docs/ARQUITETURA-IA.md) | arquitetura, sequência e separação entre o que está implementado e o que é integração proposta |
 | [`docs/DADOS-IA.md`](docs/DADOS-IA.md) | dicionário de entrada/saída, origem, tipos, utilização, qualidade e privacidade |
 | [`docs/VALIDACAO-IA.md`](docs/VALIDACAO-IA.md) | casos de teste e resultados esperados para validar regras e limiares |
-| [`docs/MATRIZ-REQUISITOS.md`](docs/MATRIZ-REQUISITOS.md) | rastreabilidade direta entre enunciado e evidências do projeto |
-| [`docs/CHECKLIST-ENTREGA.md`](docs/CHECKLIST-ENTREGA.md) | conferência final por categoria de avaliação e entregáveis |
 | [`examples/ia-input-thor.json`](examples/ia-input-thor.json) | exemplo reproduzível de entrada |
 | [`examples/ia-output-thor.json`](examples/ia-output-thor.json) | exemplo de saída priorizada e explicável |
 
@@ -526,10 +524,7 @@ clyvocare-os/
 │   ├── IA-ESPECIFICACAO.md
 │   ├── ARQUITETURA-IA.md
 │   ├── DADOS-IA.md
-│   ├── VALIDACAO-IA.md
-│   ├── MATRIZ-REQUISITOS.md
-│   ├── CHECKLIST-ENTREGA.md
-│   └── ROTEIRO-VIDEO.md
+│   └── VALIDACAO-IA.md
 │
 ├── examples/
 │   ├── ia-input-thor.json
@@ -569,7 +564,6 @@ O `.zip` de entrega não precisa conter a pasta `.git/`; o histórico permanece 
 - [x] Documentação técnica da abordagem e justificativa de escolha.
 - [x] Dicionário de dados de entrada e saída da IA.
 - [x] Plano de validação com casos de teste e resultados esperados.
-- [x] Matriz de rastreabilidade entre requisitos e evidências.
 - [x] Separação explícita entre integração implementada e arquitetura proposta.
 
 ---
