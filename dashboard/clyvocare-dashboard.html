@@ -32,7 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* Background grain */
   body::before {
     content: '';
     position: fixed;
@@ -42,7 +41,6 @@
     z-index: 0;
   }
 
-  /* Sidebar */
   .sidebar {
     position: fixed;
     left: 0; top: 0; bottom: 0;
@@ -126,7 +124,6 @@
     50% { opacity: 0.4; }
   }
 
-  /* Main */
   .main {
     margin-left: 220px;
     padding: 32px;
@@ -170,7 +167,6 @@
     animation: pulse 2s infinite;
   }
 
-  /* KPI Row */
   .kpi-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -232,7 +228,6 @@
     opacity: 0.4;
   }
 
-  /* Grid layout */
   .grid-2 {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -279,7 +274,6 @@
     letter-spacing: 0;
   }
 
-  /* Sensor Cards */
   .sensor-row {
     display: flex;
     flex-direction: column;
@@ -348,7 +342,6 @@
   .sensor-bar-fill.amber { background: var(--amber); }
   .sensor-bar-fill.red { background: var(--red); }
 
-  /* Alertas */
   .alert-list {
     display: flex;
     flex-direction: column;
@@ -400,7 +393,6 @@
   .warning .alert-dot { background: var(--amber); }
   .info .alert-dot { background: var(--accent); }
 
-  /* Pet list */
   .pet-list {
     display: flex;
     flex-direction: column;
@@ -471,7 +463,6 @@
     border: 1px solid rgba(231,76,60,0.3);
   }
 
-  /* Vaccine Timeline */
   .timeline {
     position: relative;
     padding-left: 20px;
@@ -530,7 +521,6 @@
   .tl-tag.pending { background: rgba(243,156,18,0.1); color: var(--amber); }
   .tl-tag.upcoming { background: var(--surface); color: var(--text-muted); }
 
-  /* Gauge (temp/peso) */
   .gauge-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -568,7 +558,6 @@
     color: var(--text-muted);
   }
 
-  /* MQTT Feed */
   .mqtt-feed {
     font-family: 'Courier New', monospace;
     font-size: 0.72rem;
@@ -586,7 +575,6 @@
   .mqtt-line .val { color: var(--amber); }
   .mqtt-line .ts { color: var(--green-dim); }
 
-  /* Map risk */
   .risk-map {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -619,7 +607,6 @@
   .risk-zone.med .risk-level { color: var(--amber); }
   .risk-zone.high .risk-level { color: var(--red); }
 
-  /* Chart bar (simulated) */
   .bar-chart {
     display: flex;
     align-items: flex-end;
@@ -652,12 +639,10 @@
     white-space: nowrap;
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-  /* Animations */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -668,7 +653,6 @@
   .kpi-card:nth-child(3) { animation-delay: 0.1s; }
   .kpi-card:nth-child(4) { animation-delay: 0.15s; }
 
-  /* Live blink */
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
@@ -683,7 +667,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-mark">🐾 ClyvoCare</div>
@@ -729,7 +712,6 @@
   </nav>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
 
   <div class="topbar">
@@ -746,7 +728,6 @@
     </div>
   </div>
 
-  <!-- KPIs -->
   <div class="kpi-row">
     <div class="kpi-card">
       <div class="kpi-label">Pets Monitorados</div>
@@ -774,10 +755,8 @@
     </div>
   </div>
 
-  <!-- Row 1 -->
   <div class="grid-2">
 
-    <!-- Sensores IoT ao vivo -->
     <div class="card">
       <div class="card-title">
         Sensores IoT — Wokwi Simulado
@@ -827,7 +806,6 @@
       </div>
     </div>
 
-    <!-- Recomendações da IA -->
     <div class="card">
       <div class="card-title">
         Recomendações Inteligentes
@@ -870,10 +848,8 @@
     </div>
   </div>
 
-  <!-- Row 2 -->
   <div class="grid-3">
 
-    <!-- Pets -->
     <div class="card">
       <div class="card-title">Pets Ativos</div>
       <div class="pet-list">
@@ -920,7 +896,6 @@
       </div>
     </div>
 
-    <!-- Vacinas Timeline -->
     <div class="card">
       <div class="card-title">Calendário Vacinal — Thor</div>
       <div class="timeline">
@@ -957,7 +932,6 @@
       </div>
     </div>
 
-    <!-- Resumo da IA -->
     <div class="card">
       <div class="card-title">
         Análise da IA — Thor
@@ -1004,7 +978,6 @@
     </div>
   </div>
 
-  <!-- MQTT Feed -->
   <div class="card" style="margin-bottom:20px;">
     <div class="card-title">
       Feed MQTT — Node-RED → HiveMQ
@@ -1020,7 +993,6 @@
     </div>
   </div>
 
-  <!-- Gauge Row -->
   <div class="grid-3">
     <div class="card">
       <div class="card-title">Leitura Atual — Thor</div>
@@ -1098,7 +1070,6 @@
 </main>
 
 <script>
-  // Simulated live sensor updates
   const topics = [
     { topic: 'clyvocare/esp32/temperatura', min: 37.8, max: 39.5, id: 'tempDisplay', unit: '°C', warnAbove: 39.2 },
     { topic: 'clyvocare/esp32/umidade', min: 60, max: 80, id: 'humDisplay', unit: '%', warnAbove: 75 },
@@ -1118,7 +1089,6 @@
     feed.scrollTop = feed.scrollHeight;
     msgCount++;
     document.getElementById('msgCount').textContent = `● ${msgCount} msgs recebidas`;
-    // Keep last 30 lines
     while (feed.children.length > 30) feed.removeChild(feed.firstChild);
   }
 
@@ -1138,7 +1108,6 @@
     }
   }, 2000);
 
-  // Occasionally send motion
   setInterval(() => {
     const motion = Math.random() > 0.3 ? 1 : 0;
     addFeedLine('clyvocare/esp32/movimento', motion);

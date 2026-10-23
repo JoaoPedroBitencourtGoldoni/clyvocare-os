@@ -1,0 +1,13 @@
+{
+  "name": "clyvocare-os",
+  "version": "4.0.0",
+  "description": "ClyvoCare OS — IoT + MQTT + IA para cuidado preventivo de pets (FIAP, Disruptive Architectures)",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix backend install",
+    "start": "npm --prefix backend start",
+    "test": "npm --prefix backend test",
+    "avaliar": "npm --prefix backend run avaliar",
+    "verificar-entrega": "npm --prefix backend run verificar-entrega"
+  }
+}

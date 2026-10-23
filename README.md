@@ -1,7 +1,8 @@
 # 🐾 ClyvoCare OS — Sistema de Saúde do Pet
 
 > **IoT + MQTT + Inteligência Artificial para apoio ao cuidado preventivo de pets**  
-> Protótipo acadêmico — FIAP · Disruptive Architectures: IoT, IoB & Generative IA
+> Protótipo acadêmico — FIAP · Disruptive Architectures: IoT, IoB & Generative IA  
+> **Sprint 4:** IA implementada e integrada à aplicação (API + banco de dados + IoT + IA generativa com guardrails)
 
 ---
 
@@ -9,6 +10,7 @@
 
 - [O Problema](#-o-problema)
 - [A Solução](#-a-solução)
+- [Sprint 4 — IA integrada à aplicação](#-sprint-4--ia-integrada-à-aplicação)
 - [Componente de Inteligência Artificial](#-componente-de-inteligência-artificial)
 - [Evidências Técnicas da IA](#-evidências-técnicas-da-ia)
 - [Benefícios da IA](#-benefícios-da-ia)
@@ -17,6 +19,7 @@
 - [Tecnologias](#️-tecnologias)
 - [Componentes IoT](#-componentes-iot)
 - [Como Executar](#-como-executar)
+- [Como Executar — Sprint 4](#-como-executar--sprint-4-aplicação-com-ia-integrada)
 - [Tópicos MQTT](#-tópicos-mqtt)
 - [Estrutura do Repositório](#-estrutura-do-repositório)
 - [Resultados Parciais](#-resultados-parciais)
@@ -55,6 +58,74 @@ O **ClyvoCare OS** integra IoT, MQTT, Node-RED e Inteligência Artificial para a
 | 🧠 Inteligência Artificial | Analisa dados do pet e gera recomendações priorizadas |
 
 A Inteligência Artificial complementa o monitoramento ao transformar dados do pet em **recomendações personalizadas, priorizadas e justificadas**.
+
+---
+
+## 🚀 Sprint 4 — IA integrada à aplicação
+
+Na Sprint 3 a IA foi especificada e demonstrada com dados simulados no Node-RED. Na **Sprint 4 ela foi implementada e integrada** a uma aplicação completa: interface web (tutor e clínica), API REST, banco de dados SQLite, dados IoT via MQTT e IA generativa. Tudo das Sprints 1–3 foi mantido; a Sprint 4 acrescenta a pasta `backend/` e arquivos complementares.
+
+### O que foi entregue
+
+| Entrega | Descrição | Onde |
+|---|---|---|
+| 🧠 **Motor de regras (IA especificada na Sprint 3)** | R1 vacina, R2 consulta por fase de vida, R3 retorno, R4 atividade; score, prioridade e motivo. Idêntico ao nó Node-RED original (teste diferencial) | `backend/src/ia/motorRegras.js` |
+| ✨ **IA generativa com guardrails** | LLM explica as recomendações em linguagem natural (tutor × clínica); saída validada (anti-alucinação, sem diagnóstico/dose) e **fallback** determinístico | `explicador.js`, `guardrails.js`, `llmClient.js` |
+| 💬 **Assistente conversacional** | Responde sobre vacinas, consultas, retorno, atividade e sensores com dados do pet; trata **emergências** e **recusa diagnóstico/medicação** | `chat.js` |
+| 🗄️ **Banco de dados** | SQLite: tutores, pets, vacinas, consultas, tratamentos, leituras IoT, análises (auditoria), recomendações, feedback, conversas | `backend/src/db/` |
+| 🔌 **API REST** | Aplicação ↔ API ↔ BD ↔ IA ([referência](docs/API.md)) | `backend/src/app.js` |
+| 📡 **IoT → IA** | API assina o MQTT do ESP32; o sensor PIR gera a variação de atividade da regra R4 e as recomendações são publicadas em `clyvocare/ia/recomendacoes` | `services/iotService.js`, `ia/atividade.js` |
+| 🖥️ **Aplicação web** | Tutor: cuidados priorizados, chat, sensores, registro de dados. Clínica: painel por prioridade, revisão humana, auditoria e métricas de adesão | `backend/public/index.html` |
+| 🔁 **Node-RED integrado** | Flow complementar que consome a API e publica no MQTT (flow original intacto) | `node-red/clyvocare-nodered-flow-sprint4.json` |
+| ✅ **Dados, testes e validação** | Validador de qualidade de dados, 16 cenários rotulados, **52 testes automatizados**, relatório de avaliação | `dados/`, `backend/tests/`, [`docs/RELATORIO-RESULTADOS.md`](docs/RELATORIO-RESULTADOS.md) |
+
+### Arquitetura implementada
+
+```mermaid
+flowchart LR
+    T[Tutor] --> APP[Aplicação web]
+    C[Clínica] --> APP
+    APP <-->|REST JSON| API[API Express]
+    API <--> DB[(SQLite)]
+    ESP[ESP32 / Wokwi] -->|MQTT| HIVE[HiveMQ]
+    HIVE -->|assinatura| API
+    API --> VAL[Validação de dados]
+    VAL --> MOTOR[Motor de regras R1–R4]
+    MOTOR --> GEN[IA generativa: explicação e chat]
+    GEN --> GR{Guardrails}
+    GR -->|aprovado| API
+    GR -->|reprovado| TPL[Template determinístico] --> API
+    API -->|clyvocare/ia/recomendacoes| HIVE
+    HIVE --> NR[Node-RED]
+    NR -->|HTTP| API
+```
+
+**Princípio de projeto:** *o motor de regras decide; o LLM apenas explica.* A decisão sobre o que priorizar é determinística e auditável; a IA generativa melhora a comunicação e nunca altera score ou ordem. Sem chave de LLM ou sem internet, o sistema opera normalmente em modo offline.
+
+### Evidências (telas)
+
+| Tutor — Thor com 4 recomendações, chat e IoT | Personalização — Mel (idosa) |
+|---|---|
+| ![Tutor](docs/evidencias/01-tutor-recomendacoes-thor.png) | ![Mel](docs/evidencias/02-tutor-personalizacao-mel-idosa.png) |
+
+| Clínica — painel, revisão humana e métricas | Como a IA funciona |
+|---|---|
+| ![Clínica](docs/evidencias/03-clinica-painel-revisao.png) | ![IA](docs/evidencias/04-sobre-a-ia.png) |
+
+### Resultados da avaliação (resumo)
+
+| Métrica | Resultado |
+|---|---|
+| Cenários rotulados do motor | **16/16** (precisão e revocação 100% por regra) |
+| Paridade com o nó Node-RED da Sprint 3 | **600/600** entradas aleatórias idênticas |
+| Saídas inseguras de LLM simuladas bloqueadas | **10/10** (saída válida aceita) |
+| Intenções e guardrails do assistente | **15/15** |
+| Testes automatizados | **50/50** |
+| Latência do pipeline offline | ~0,1 ms (sem rede) |
+
+Detalhes e tabelas em [`docs/RELATORIO-RESULTADOS.md`](docs/RELATORIO-RESULTADOS.md). Contribuição para a personalização: o mesmo histórico (130 dias sem consulta) gera recomendação para **filhote** e **idoso**, mas não para **adulto**.
+
+> Documentos da Sprint 4: [`docs/SPRINT4-IMPLEMENTACAO.md`](docs/SPRINT4-IMPLEMENTACAO.md) · [`docs/API.md`](docs/API.md) · [`docs/IA-GENERATIVA.md`](docs/IA-GENERATIVA.md) · [`docs/RELATORIO-RESULTADOS.md`](docs/RELATORIO-RESULTADOS.md)
 
 ---
 
@@ -326,6 +397,8 @@ flowchart LR
 
 ### Status da integração
 
+> **Atualização Sprint 4:** a integração Aplicação ↔ API ↔ Banco de Dados ↔ IA, descrita abaixo como *arquitetura proposta* na Sprint 3, **foi implementada** (ver [Sprint 4](#-sprint-4--ia-integrada-à-aplicação)). O texto original da Sprint 3 foi preservado para registro.
+
 Para não confundir **protótipo implementado** com **arquitetura de evolução**, a solução é apresentada em dois níveis:
 
 - **Implementado e demonstrável nesta Sprint:** ESP32/Wokwi → MQTT/HiveMQ → Node-RED → processamento/alertas → Motor de Regras → Debug e publicação em `clyvocare/ia/recomendacoes`. A entrada clínica da IA é simulada pelo nó **Dados do Pet — Demonstração IA**.
@@ -349,6 +422,11 @@ Essa distinção garante transparência sobre os resultados parciais sem superes
 | **Motor de Regras Inteligentes** | Personalização, priorização e recomendação de cuidados |
 | **ArduinoJson** | Serialização dos dados do ESP32 |
 | **HTML/CSS/JavaScript** | Dashboard web |
+| **Node.js + Express** *(Sprint 4)* | API REST que integra aplicação, banco, IoT e IA |
+| **SQLite (`node:sqlite`; `better-sqlite3` opcional)** *(Sprint 4)* | Banco de dados relacional com auditoria das análises, sem compilação nativa |
+| **mqtt.js** *(Sprint 4)* | Assinatura dos sensores do ESP32 e publicação das recomendações |
+| **LLM — Anthropic Messages API** *(Sprint 4)* | IA generativa para explicação e chat (opcional, com guardrails e fallback) |
+| **node:test** *(Sprint 4)* | Testes automatizados (unitários, diferenciais e de integração) |
 
 ---
 
@@ -474,6 +552,51 @@ clyvocare/ia/recomendacoes
 
 ---
 
+## ▶️ Como Executar — Sprint 4 (aplicação com IA integrada)
+
+**Requisitos:** Node.js **22.13 ou superior** (recomendado) e npm. O banco SQLite é o que vem embutido no Node (`node:sqlite`): **não há nada para compilar**. Em Node 18.18–22.12 o `npm install` instala o `better-sqlite3` como alternativa opcional.
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+Abra **http://localhost:3000**. O banco SQLite é criado e populado automaticamente (Thor, Luna, Mel e Bolt).
+
+| Opção | Como |
+|---|---|
+| Sem internet / sem LLM | `MQTT_ENABLED=false npm start` (modo offline com templates) |
+| Habilitar IA generativa | `ANTHROPIC_API_KEY=sua_chave npm start` (modelo configurável em `CLYVO_LLM_MODEL`) |
+| Conectar o ESP32/Wokwi | Deixe o Wokwi rodando; a API assina `clyvocare/esp32/*` no HiveMQ e grava as leituras para o pet `IOT_PET_ID` (padrão `pet-001`) |
+| Contêiner (opcional) | `docker compose up --build` |
+
+Variáveis de ambiente: [`backend/.env.example`](backend/.env.example).
+
+### Roteiro de demonstração (≈ 3 min)
+
+1. Na aba **Tutor**, mantenha a data **31/08/2026** e selecione **Thor** → 4 recomendações (Vacinação 93, Retorno 90, Avaliação 80, Consulta 70), idênticas à Sprint 3.
+2. Clique em **Marcar aplicada** na vacina de Raiva → a recomendação R1 desaparece (dado → banco → IA).
+3. Clique em **Simular queda de atividade (−35%)** → R4 recalculada com origem *PIR IoT (ESP32)*.
+4. No **assistente**: “Como estão as vacinas?”, “Qual remédio posso dar?” (recusa segura) e “meu cachorro está convulsionando” (orientação de emergência).
+5. Troque para **Mel (idosa)** → consulta preventiva por 128 dias (limite do idoso: 120).
+6. Na aba **Clínica** → painel por prioridade, **aprovar/rejeitar** recomendações, auditoria e métricas.
+
+### Node-RED (integração)
+
+Importe `node-red/clyvocare-nodered-flow-sprint4.json` (além do flow original) com o backend rodando. Os injects consultam a API, exibem o resultado no Debug e publicam em `clyvocare/ia/recomendacoes`.
+
+### Testes e avaliação
+
+```bash
+cd backend
+npm test            # 52 testes: regras, paridade com Sprint 3, validação, IoT, LLM/guardrails, chat, API+BD
+npm run avaliar     # gera docs/RELATORIO-RESULTADOS.md (cenários rotulados, guardrails, latência)
+npm run verificar-entrega   # checklist antes de gerar o .zip
+```
+
+---
+
 ## 📡 Tópicos MQTT
 
 | Tópico | Direção | Payload | Descrição |
@@ -508,33 +631,47 @@ clyvocare/ia/recomendacoes
 ```text
 clyvocare-os/
 │
-├── firmware/
+├── firmware/                         # Sprint 2 — ESP32 / Wokwi
 │   ├── sketch.ino
 │   ├── diagram.json
 │   ├── libraries.txt
 │   └── wokwi-project.txt
 │
 ├── node-red/
-│   └── clyvocare-nodered-flow.json
+│   ├── clyvocare-nodered-flow.json            # Sprints 2/3 (original, intacto)
+│   └── clyvocare-nodered-flow-sprint4.json    # Sprint 4 — integração com a API de IA
 │
 ├── dashboard/
-│   └── clyvocare-dashboard.html
+│   └── clyvocare-dashboard.html               # Sprints 2/3 (original, intacto)
+│
+├── backend/                          # Sprint 4 — API, banco, IA e aplicação web
+│   ├── src/
+│   │   ├── ia/                       # motorRegras, validador, atividade (IoT), explicador (LLM),
+│   │   │                             # guardrails, chat, llmClient, fase
+│   │   ├── db/                       # schema.sql, database.js, seed.js
+│   │   ├── services/                 # contexto, recomendacaoService, iotService (MQTT)
+│   │   ├── app.js · server.js · config.js
+│   ├── public/                       # index.html (tutor/clínica) e dashboard-iot.html
+│   ├── tests/                        # 52 testes automatizados
+│   ├── scripts/                      # avaliar.js · verificar-entrega.js
+│   ├── Dockerfile · .env.example · package.json
+│
+├── dados/
+│   └── cenarios-validacao.json       # Sprint 4 — 16 cenários rotulados
 │
 ├── docs/
-│   ├── IA-ESPECIFICACAO.md
-│   ├── ARQUITETURA-IA.md
-│   ├── DADOS-IA.md
-│   └── VALIDACAO-IA.md
+│   ├── IA-ESPECIFICACAO.md · ARQUITETURA-IA.md · DADOS-IA.md · VALIDACAO-IA.md   # Sprint 3
+│   ├── SPRINT4-IMPLEMENTACAO.md · API.md · IA-GENERATIVA.md                      # Sprint 4
+│   ├── RELATORIO-RESULTADOS.md                                                   # Sprint 4
+│   └── evidencias/                   # capturas de tela da aplicação
 │
 ├── examples/
 │   ├── ia-input-thor.json
 │   └── ia-output-thor.json
 │
-├── Github/
-│   └── Link Github.txt
-├── Video/
-│   └── Link Video.txt
-├── .gitignore
+├── Github/Link Github.txt
+├── Video/Link Video.txt
+├── docker-compose.yml · package.json · .gitignore
 └── README.md
 ```
 
@@ -566,6 +703,21 @@ O `.zip` de entrega não precisa conter a pasta `.git/`; o histórico permanece 
 - [x] Plano de validação com casos de teste e resultados esperados.
 - [x] Separação explícita entre integração implementada e arquitetura proposta.
 
+### ✅ Sprint 4 — implementado
+
+- [x] Motor de regras extraído para módulo e idêntico ao nó Node-RED da Sprint 3 (teste diferencial).
+- [x] Banco de dados SQLite com perfil, histórico, vacinas, consultas, tratamentos, IoT, análises, feedback e conversas.
+- [x] API REST integrando aplicação, banco, IoT e IA.
+- [x] Validação da qualidade dos dados de entrada (datas, fase de vida, consistência, contexto insuficiente).
+- [x] IoT → IA: sensor PIR via MQTT gera a variação de atividade da regra R4.
+- [x] IA generativa (LLM) para explicação e chat, com guardrails anti-alucinação e fallback determinístico.
+- [x] Assistente conversacional com tratamento de emergência e recusa de diagnóstico/medicação.
+- [x] Aplicação web para tutor (cuidados, chat, sensores, registro) e clínica (painel, revisão humana, métricas).
+- [x] Feedback do tutor, revisão clínica e trilha de auditoria de cada execução da IA.
+- [x] Flow Node-RED complementar consumindo a API e publicando em MQTT.
+- [x] 52 testes automatizados e relatório de avaliação reproduzível.
+- [x] Documentação técnica, referência da API, evidências em tela e roteiro do vídeo pitch.
+
 ---
 
 ## 👥 Equipe
@@ -583,7 +735,9 @@ O `.zip` de entrega não precisa conter a pasta `.git/`; o histórico permanece 
 ## 🎬 Links
 
 - 💻 **Repositório:** https://github.com/JoaoPedroBitencourtGoldoni/clyvocare-os
+- 📺 **Vídeo Pitch Sprint 4:** https://youtu.be/Z8Mz_eGe6Iw
 - 📺 **Vídeo Pitch Sprint 3:** https://youtu.be/xaL6Z8EyFxg
+- 🖥️ **Aplicação (local):** `http://localhost:3000`
 - 🐾 **Dashboard Node-RED:** `http://localhost:1880/ui`
 - 🐾 **Dashboard Web:** `dashboard/clyvocare-dashboard.html`
 

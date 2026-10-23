@@ -1,27 +1,17 @@
-// ============================================================
-// ClyvoCare OS — ESP32 Firmware (Wokwi Simulation)
-// Sensores: DHT22 (Temp/Umidade), Potenciômetro (simula peso),
-//           PIR (movimento), Buzzer (alerta)
-// Protocolo: MQTT via HiveMQ
-// ============================================================
-
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <DHT.h>
 #include <ArduinoJson.h>
 
-// ---- Configurações WiFi ----
 const char* WIFI_SSID     = "Wokwi-GUEST";
 const char* WIFI_PASSWORD = "";
 
-// ---- Configurações HiveMQ ----
 const char* MQTT_BROKER   = "broker.hivemq.com";
 const int   MQTT_PORT     = 1883;
 const char* MQTT_USER     = "";
 const char* MQTT_PASSWORD = "";
 const char* CLIENT_ID     = "clyvocare-esp32-001";
 
-// ---- Tópicos MQTT ----
 const char* TOPIC_TEMP    = "clyvocare/esp32/temperatura";
 const char* TOPIC_HUM     = "clyvocare/esp32/umidade";
 const char* TOPIC_PESO    = "clyvocare/esp32/peso";
@@ -29,7 +19,6 @@ const char* TOPIC_MOV     = "clyvocare/esp32/movimento";
 const char* TOPIC_ALERTA  = "clyvocare/alertas/critico";
 const char* TOPIC_STATUS  = "clyvocare/esp32/status";
 
-// ---- Pinos ----
 #define DHT_PIN       4
 #define DHT_TYPE      DHT22
 #define POT_PIN       34
@@ -38,12 +27,10 @@ const char* TOPIC_STATUS  = "clyvocare/esp32/status";
 #define LED_STATUS    2
 #define LED_ALERT     5
 
-// ---- Objetos ----
 DHT dht(DHT_PIN, DHT_TYPE);
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
 
-// ---- Variáveis ----
 unsigned long lastPublish  = 0;
 unsigned long lastBlink    = 0;
 const long    PUBLISH_INTERVAL = 3000;

@@ -1,0 +1,639 @@
+{
+ "descricao": "Cenários rotulados (resultado esperado definido manualmente a partir das regras de docs/IA-ESPECIFICACAO.md) usados por backend/scripts/avaliar.js",
+ "cenarios": [
+  {
+   "id": "C01",
+   "descricao": "Thor — cenário da Sprint 3 (4 recomendações)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-001",
+     "nome": "Thor",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "historicoClinico": [
+     {
+      "data": "2026-03-10",
+      "tipo": "consulta",
+      "observacao": "acompanhamento de rotina"
+     }
+    ],
+    "vacinas": [
+     {
+      "nome": "Raiva",
+      "proximaDose": "2026-08-15",
+      "status": "atrasada"
+     },
+     {
+      "nome": "V10",
+      "proximaDose": "2027-01-10",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-02-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [
+     {
+      "nome": "Tratamento prescrito",
+      "status": "ativo",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-08-20"
+     }
+    ],
+    "comportamento": {
+     "variacaoAtividadePercentual": -35,
+     "origem": "PIR IoT + registro do tutor"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R1",
+     "score": 93
+    },
+    {
+     "regra": "R3",
+     "score": 90
+    },
+    {
+     "regra": "R4",
+     "score": 80
+    },
+    {
+     "regra": "R2",
+     "score": 70
+    }
+   ]
+  },
+  {
+   "id": "C02",
+   "descricao": "Adulto sem pendências",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C03",
+   "descricao": "Idoso, 130 dias sem consulta → R2 dispara (limite 120)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "idoso"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-04-24",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R2",
+     "score": 70
+    }
+   ]
+  },
+  {
+   "id": "C04",
+   "descricao": "Adulto, mesmos 130 dias → R2 NÃO dispara (limite 180)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-04-24",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C05",
+   "descricao": "Filhote, 100 dias sem consulta → R2 dispara (limite 90)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "filhote"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-05-23",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R2",
+     "score": 70
+    }
+   ]
+  },
+  {
+   "id": "C06",
+   "descricao": "Vacina com 1 dia de atraso → 85.5",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "Raiva",
+      "proximaDose": "2026-08-30",
+      "status": "atrasada"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R1",
+     "score": 85.5
+    }
+   ]
+  },
+  {
+   "id": "C07",
+   "descricao": "Vacina com 40 dias de atraso → teto 100",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "Raiva",
+      "proximaDose": "2026-07-22",
+      "status": "atrasada"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R1",
+     "score": 100
+    }
+   ]
+  },
+  {
+   "id": "C08",
+   "descricao": "Duas vacinas atrasadas (16 e 4 dias) ordenadas por score",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2026-08-27",
+      "status": "atrasada"
+     },
+     {
+      "nome": "Raiva",
+      "proximaDose": "2026-08-15",
+      "status": "atrasada"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R1",
+     "score": 93
+    },
+    {
+     "regra": "R1",
+     "score": 87
+    }
+   ]
+  },
+  {
+   "id": "C09",
+   "descricao": "Retorno de tratamento vencido",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [
+     {
+      "nome": "Tratamento",
+      "status": "ativo",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-08-20"
+     }
+    ],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R3",
+     "score": 90
+    }
+   ]
+  },
+  {
+   "id": "C10",
+   "descricao": "Retorno na própria data de referência → sem atraso",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [
+     {
+      "nome": "Tratamento",
+      "status": "ativo",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-08-31"
+     }
+    ],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C11",
+   "descricao": "Queda de atividade de 29% → não dispara",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": -29,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C12",
+   "descricao": "Queda de atividade de 30% → dispara",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": -30,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R4",
+     "score": 80
+    }
+   ]
+  },
+  {
+   "id": "C13",
+   "descricao": "Aumento de atividade (+40%) → não dispara",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [],
+    "comportamento": {
+     "variacaoAtividadePercentual": 40,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C14",
+   "descricao": "Tratamento concluído com retorno antigo → não dispara",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "adulto"
+    },
+    "vacinas": [
+     {
+      "nome": "V10",
+      "proximaDose": "2027-03-01",
+      "status": "em_dia"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-07-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [
+     {
+      "nome": "T",
+      "status": "concluido",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-01-01"
+     }
+    ],
+    "comportamento": {
+     "variacaoAtividadePercentual": 0,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": []
+  },
+  {
+   "id": "C15",
+   "descricao": "Idoso com todas as pendências (R1+R2+R3+R4)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "cao",
+     "idadeAnos": 3,
+     "faseVida": "idoso"
+    },
+    "vacinas": [
+     {
+      "nome": "Raiva",
+      "proximaDose": "2026-08-01",
+      "status": "atrasada"
+     }
+    ],
+    "consultas": [
+     {
+      "data": "2026-01-01",
+      "tipo": "rotina"
+     }
+    ],
+    "medicamentos": [
+     {
+      "nome": "Tratamento",
+      "status": "ativo",
+      "retornoRecomendado": true,
+      "dataRetorno": "2026-08-10"
+     }
+    ],
+    "comportamento": {
+     "variacaoAtividadePercentual": -50,
+     "origem": "cenário de validação"
+    }
+   },
+   "esperado": [
+    {
+     "regra": "R1",
+     "score": 100
+    },
+    {
+     "regra": "R3",
+     "score": 90
+    },
+    {
+     "regra": "R4",
+     "score": 80
+    },
+    {
+     "regra": "R2",
+     "score": 70
+    }
+   ]
+  },
+  {
+   "id": "C16",
+   "descricao": "Sem nenhum dado clínico (contexto insuficiente → nada é inventado)",
+   "entrada": {
+    "dataReferencia": "2026-08-31",
+    "perfil": {
+     "id": "pet-x",
+     "nome": "Pet",
+     "especie": "gato",
+     "faseVida": "adulto"
+    }
+   },
+   "esperado": []
+  }
+ ]
+}

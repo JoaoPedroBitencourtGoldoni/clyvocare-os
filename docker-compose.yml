@@ -1,0 +1,14 @@
+services:
+  clyvocare-api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports: ["3000:3000"]
+    environment:
+      - MQTT_ENABLED=${MQTT_ENABLED:-true}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - CLYVO_DB_PATH=/data/clyvocare.db
+    volumes:
+      - clyvocare-data:/data
+volumes:
+  clyvocare-data:

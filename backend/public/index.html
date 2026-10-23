@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClyvoCare OS — Aplicação (Sprint 4)</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0f0d;--surface:#111a15;--card:#162019;--border:#1f3028;--green:#2ecc71;--green-dim:#1a7a43;--glow:rgba(46,204,113,.15);--amber:#f39c12;--red:#e74c3c;--blue:#3498db;--text:#e8f5ee;--muted:#6b8f77;--accent:#00ff88}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:28px 0;z-index:10}
+  .logo{padding:0 24px 24px;border-bottom:1px solid var(--border)}
+  .logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent);letter-spacing:-.02em}
+  .logo-sub{font-size:.7rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+  .nav{padding:20px 0;display:flex;flex-direction:column;gap:2px}
+  .nav button{all:unset;display:flex;gap:12px;align-items:center;padding:10px 24px;font-size:.85rem;color:var(--muted);cursor:pointer;border-left:3px solid transparent;transition:.2s}
+  .nav button:hover,.nav button.active{color:var(--text);background:var(--glow);border-left-color:var(--accent)}
+  .side-foot{margin-top:auto;padding:16px 24px;font-size:.7rem;color:var(--muted);line-height:1.6}
+  .main{margin-left:220px;padding:28px 32px 60px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+  h1{font-family:'Syne',sans-serif;font-size:1.6rem}h1 span{color:var(--accent)}
+  h2{font-family:'Syne',sans-serif;font-size:1.05rem;margin-bottom:12px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .chip{font-size:.72rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted)}
+  .chip.ok{color:var(--green);border-color:var(--green-dim)}.chip.warn{color:var(--amber);border-color:#7a5410}
+  .refbox{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--muted)}
+  input,select,textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font:inherit;font-size:.85rem}
+  input:focus{outline:1px solid var(--green-dim)}
+  .btn{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font:inherit;font-size:.78rem;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--green-dim);background:var(--glow)}
+  .btn.primary{background:var(--green-dim);border-color:var(--green)}
+  .grid{display:grid;gap:18px}.g2{grid-template-columns:1.5fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:1000px){.g2,.g4{grid-template-columns:1fr 1fr}.sidebar{display:none}.main{margin-left:0}}
+  @media(max-width:640px){.g2,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .petbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .pet{cursor:pointer;padding:10px 16px;border:1px solid var(--border);border-radius:12px;background:var(--card);font-size:.85rem}
+  .pet.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}.pet small{display:block;color:var(--muted);font-size:.7rem}
+  .summary{border-left:3px solid var(--accent);background:var(--glow)}
+  .summary p{line-height:1.6;font-size:.92rem}
+  .badge{display:inline-flex;gap:6px;align-items:center;font-size:.68rem;padding:3px 9px;border-radius:20px;margin-top:10px;margin-right:6px;border:1px solid var(--border);color:var(--muted)}
+  .badge.llm{color:var(--accent);border-color:var(--green-dim)}
+  .rec{border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--surface);border-left-width:4px}
+  .rec.ALTA{border-left-color:var(--red)}.rec.MEDIA{border-left-color:var(--amber)}.rec.BAIXA{border-left-color:var(--blue)}
+  .rec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .rec-title{font-weight:700;font-size:.95rem}.rec-svc{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .prio{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap}
+  .prio.ALTA{background:rgba(231,76,60,.18);color:var(--red)}.prio.MEDIA{background:rgba(243,156,18,.18);color:var(--amber)}.prio.BAIXA{background:rgba(52,152,219,.18);color:var(--blue)}.prio.NENHUMA{background:var(--bg);color:var(--muted)}
+  .rec p{font-size:.86rem;line-height:1.55;margin:8px 0;color:#cfe5d6}
+  .meta{font-size:.72rem;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .tag{background:var(--bg);border:1px solid var(--border);padding:2px 8px;border-radius:6px}
+  .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+  .done{font-size:.75rem;color:var(--green)}
+  .empty{padding:26px;text-align:center;color:var(--muted);font-size:.9rem}
+  .kpi b{font-family:'Syne',sans-serif;font-size:1.9rem;display:block;color:var(--accent)}.kpi span{font-size:.75rem;color:var(--muted)}
+  .sensor{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:.85rem}.sensor:last-child{border:0}
+  .chat{display:flex;flex-direction:column;height:430px}
+  .msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+  .msg{max-width:90%;padding:9px 12px;border-radius:12px;font-size:.84rem;line-height:1.5;white-space:pre-wrap}
+  .msg.u{align-self:flex-end;background:var(--green-dim)}.msg.a{align-self:flex-start;background:var(--surface);border:1px solid var(--border)}
+  .msg small{display:block;margin-top:6px;font-size:.65rem;color:var(--muted)}
+  .msg.alerta{border-color:var(--red)}
+  .sugs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+  .chatin{display:flex;gap:8px}.chatin input{flex:1}
+  table{width:100%;border-collapse:collapse;font-size:.84rem}
+  th{text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border)}
+  td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr.row{cursor:pointer}tr.row:hover td{background:var(--glow)}
+  .hidden{display:none}
+  .note{font-size:.74rem;color:var(--muted);line-height:1.6;margin-top:10px}
+  .steps{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.8rem}.steps .st{padding:8px 12px;border:1px solid var(--green-dim);border-radius:10px;background:var(--surface)}.steps .ar{color:var(--accent)}
+  .toast{position:fixed;right:20px;bottom:20px;background:var(--surface);border:1px solid var(--green-dim);padding:10px 14px;border-radius:10px;font-size:.82rem;z-index:50;display:none}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo"><div class="logo-mark">ClyvoCare</div><div class="logo-sub">OS · Sprint 4</div></div>
+  <nav class="nav">
+    <button data-view="tutor" class="active">🐾 Tutor</button>
+    <button data-view="clinica">🏥 Clínica</button>
+    <button data-view="ia">🧠 Sobre a IA</button>
+  </nav>
+  <div class="side-foot">Apoio à decisão.<br>Não substitui a avaliação veterinária.<br><br><a style="color:var(--accent)" href="/dashboard-iot.html">Dashboard IoT (Sprint 2/3)</a></div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <h1 id="titulo">Cuidados do <span>pet</span></h1>
+    <div class="chips" id="status"></div>
+  </div>
+  <div class="refbox card" style="padding:10px 14px;margin-bottom:18px;flex-wrap:wrap">
+    <label for="ref">Data de referência da análise (simulação):</label>
+    <input type="date" id="ref">
+    <button class="btn" id="btnDemo">Data da demo (31/08/2026)</button>
+    <button class="btn" id="btnHoje">Hoje</button>
+    <span style="font-size:.72rem">A data da demo reproduz exatamente o cenário validado na Sprint 3.</span>
+  </div>
+
+  <section id="v-tutor">
+    <div class="petbar" id="petbar"></div>
+    <div class="grid g2">
+      <div>
+        <div class="card summary" id="resumoCard"></div>
+        <div style="height:16px"></div>
+        <div class="card"><h2>Próximos cuidados priorizados pela IA</h2><div id="recs"></div><div id="qualidade" class="note"></div></div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card chat"><h2>Assistente conversacional</h2>
+          <div class="msgs" id="msgs"></div>
+          <div class="sugs" id="sugs"></div>
+          <div class="chatin"><input id="chatIn" placeholder="Pergunte sobre vacinas, consultas, atividade..." autocomplete="off"><button class="btn primary" id="chatBtn">Enviar</button></div>
+        </div>
+        <div class="card"><h2>Sensores IoT (ESP32)</h2><div id="iot"></div>
+          <div class="actions"><button class="btn" id="simNormal">Simular atividade normal</button><button class="btn" id="simQueda">Simular queda de atividade (−35%)</button></div>
+          <div class="note">Em produção os dados chegam do ESP32 via MQTT (HiveMQ). Os botões simulam 24 h de leituras do PIR para demonstrar o fluxo IoT → banco → IA.</div>
+        </div>
+        <div class="card"><h2>Registrar dados (alimentam a IA)</h2><div id="registros"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="v-clinica" class="hidden">
+    <div class="grid g4" id="kpis" style="margin-bottom:18px"></div>
+    <div class="card" style="margin-bottom:18px"><h2>Pacientes ordenados por prioridade (clique para revisar)</h2><div id="painel"></div></div>
+    <div class="grid g2">
+      <div class="card"><h2>Trilha de auditoria da IA</h2><div id="auditoria"></div></div>
+      <div class="card"><h2>Métricas de uso e adesão</h2><div id="metricas"></div></div>
+    </div>
+  </section>
+
+  <section id="v-ia" class="hidden">
+    <div class="card" style="margin-bottom:18px"><h2>Pipeline de IA integrado</h2>
+      <div class="steps"><span class="st">ESP32 · PIR</span><span class="ar">→</span><span class="st">MQTT / HiveMQ</span><span class="ar">→</span><span class="st">API + SQLite</span><span class="ar">→</span><span class="st">Validação de dados</span><span class="ar">→</span><span class="st">Motor de Regras (score)</span><span class="ar">→</span><span class="st">LLM explica + guardrails</span><span class="ar">→</span><span class="st">Tutor / Clínica</span></div>
+      <p class="note">O motor de regras decide e pontua (determinístico e auditável). A IA generativa apenas reescreve os fatos em linguagem natural e passa por guardrails; se reprovada ou indisponível, o sistema usa um template determinístico.</p>
+    </div>
+    <div class="card"><h2>Parâmetros das regras</h2><div id="params"></div></div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const st = { view: 'tutor', petId: null, pets: [], saude: null, demo: '2026-08-31' };
+const api = async (url, opt) => {
+  const r = await fetch(url, opt && opt.body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(opt.body) } : undefined);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error((j.erro || 'Erro') + (j.detalhes ? ': ' + [].concat(j.detalhes).join('; ') : ''));
+  return j;
+};
+const ref = () => $('#ref').value;
+function toast(t) { const e = $('#toast'); e.textContent = t; e.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = 'none', 2600); }
+const fmt = (iso) => iso ? iso.split('-').reverse().join('/') : '';
+
+async function init() {
+  st.saude = await api('/api/saude');
+  st.demo = st.saude.dataDemo || st.demo;
+  $('#ref').value = st.demo;
+  const llm = st.saude.ia.llm;
+  $('#status').innerHTML =
+    `<span class="chip ok">API · SQLite</span>` +
+    `<span class="chip ${llm.habilitado ? 'ok' : 'warn'}">${llm.habilitado ? 'IA generativa: ' + esc(llm.modelo) : 'IA generativa: modo offline (template)'}</span>` +
+    `<span class="chip ${st.saude.mqtt.conectado ? 'ok' : 'warn'}">MQTT: ${st.saude.mqtt.habilitado ? (st.saude.mqtt.conectado ? 'conectado' : 'conectando…') : 'desabilitado'}</span>`;
+  st.pets = await api('/api/pets');
+  st.petId = st.petId || (st.pets[0] && st.pets[0].id);
+  renderPets();
+  await carregarTutor();
+}
+
+function renderPets() {
+  $('#petbar').innerHTML = st.pets.map((p) => `<div class="pet ${p.id === st.petId ? 'active' : ''}" data-id="${esc(p.id)}">${p.especie === 'gato' ? '🐱' : '🐶'} ${esc(p.nome)}<small>${esc(p.faseVida)} · ${esc(p.idadeAnos)} ano(s)</small></div>`).join('');
+  document.querySelectorAll('.pet').forEach((e) => e.onclick = () => { st.petId = e.dataset.id; renderPets(); $('#msgs').innerHTML = ''; carregarTutor(); });
+}
+
+async function carregarTutor() {
+  if (!st.petId) return;
+  $('#recs').innerHTML = '<div class="empty">Analisando…</div>';
+  try {
+    const [r, pet] = await Promise.all([
+      api(`/api/pets/${st.petId}/recomendacoes?publico=tutor&dataReferencia=${ref()}`),
+      api(`/api/pets/${st.petId}?dataReferencia=${ref()}`),
+    ]);
+    renderResumo(r); renderRecs(r); renderIot(pet); renderRegistros(pet);
+    const nome = r.pet.nome;
+    $('#titulo').innerHTML = `Cuidados do <span>${esc(nome)}</span>`;
+    if (!$('#msgs').children.length) { addMsg('a', `Olá! Sou o assistente do ClyvoCare. Pergunte sobre os cuidados de ${nome}.`); sugestoes(['Quais são os próximos cuidados?', 'Como estão as vacinas?', 'Como está a atividade?', 'Como você calcula as prioridades?']); }
+  } catch (e) { $('#recs').innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
+}
+
+function renderResumo(r) {
+  const g = r.geracao || {};
+  const badges = g.modo === 'llm'
+    ? `<span class="badge llm">✨ Texto gerado por IA generativa (${esc(g.modelo)})</span><span class="badge llm">🛡️ Guardrails aprovados</span>`
+    : `<span class="badge">📝 Texto por template determinístico</span>${g.fallbackMotivo ? `<span class="badge">${esc(g.fallbackMotivo)}</span>` : ''}`;
+  $('#resumoCard').innerHTML = `<p>${esc(r.resumo)}</p>${badges}<span class="badge">⏱ ${esc(g.latenciaMs)} ms</span><span class="badge">Análise #${esc(r.analiseId)} · ref. ${fmt(r.dataReferencia)}</span>`;
+}
+
+function renderRecs(r) {
+  if (!r.recomendacoes.length) { $('#recs').innerHTML = '<div class="empty">✅ Nenhum cuidado pendente. A IA só recomenda quando há motivo registrado nos dados.</div>'; }
+  else $('#recs').innerHTML = r.recomendacoes.map((x) => `
+    <div class="rec ${esc(x.prioridade)}" data-rid="${x.id}">
+      <div class="rec-head"><div><div class="rec-svc">${esc(x.servico)} · ${esc(x.regra)}</div><div class="rec-title">${esc(x.acao)}</div></div><span class="prio ${esc(x.prioridade)}">${esc(x.prioridade)} · ${esc(x.score)}</span></div>
+      <p>${esc(x.explicacao || x.motivo)}</p>
+      <div class="meta"><span>Por quê:</span><span class="tag">${esc(x.motivo)}</span><span>Dados:</span>${x.dadosUtilizados.map((d) => `<span class="tag">${esc(d)}</span>`).join('')}</div>
+      <div class="actions"><button class="btn primary" data-fb="agendado">📅 Vou agendar</button><button class="btn" data-fb="dispensado">Dispensar</button><button class="btn" data-fb="util">👍 Útil</button><button class="btn" data-fb="nao_util">👎 Não ajudou</button><span class="done"></span></div>
+    </div>`).join('');
+  document.querySelectorAll('#recs .rec').forEach((card) => card.querySelectorAll('[data-fb]').forEach((b) => b.onclick = async () => {
+    await api(`/api/recomendacoes/${card.dataset.rid}/feedback`, { body: { feedback: b.dataset.fb } });
+    card.querySelector('.done').textContent = '✓ Registrado: ' + b.textContent.trim(); toast('Feedback registrado — alimenta as métricas da clínica');
+  }));
+  const q = r.qualidadeDados || {};
+  const partes = [];
+  (q.avisos || []).forEach((a) => partes.push('⚠️ ' + a));
+  if ((q.regrasNaoAvaliadas || []).length) partes.push('Regras não avaliadas por falta de dados: ' + q.regrasNaoAvaliadas.map((x) => x.regra + ' (' + x.motivo + ')').join('; '));
+  if (r.contextoComportamento) partes.push('Atividade — fonte: ' + r.contextoComportamento.origem);
+  $('#qualidade').innerHTML = partes.map(esc).join('<br>');
+}
+
+function renderIot(pet) {
+  const s = pet.sensores || {};
+  const linhas = [['Temperatura', s.temperatura, (v) => v + ' °C'], ['Umidade', s.umidade, (v) => v + ' %'], ['Peso', s.peso, (v) => v + ' kg'], ['Movimento (PIR)', s.movimento, (v) => v === 1 ? 'ativo' : 'inativo']];
+  $('#iot').innerHTML = linhas.map(([n, d, f]) => `<div class="sensor"><span>${n}</span><b>${d ? esc(f(d.valor)) : '—'}</b></div>`).join('') +
+    (pet.comportamento ? `<div class="sensor"><span>Variação de atividade</span><b>${esc(pet.comportamento.variacaoAtividadePercentual)}%</b></div><div class="note">Fonte: ${esc(pet.comportamento.origem)}</div>` : '');
+}
+
+function renderRegistros(pet) {
+  const vac = pet.vacinas.map((v) => `<div class="sensor"><span>💉 ${esc(v.nome)} <small style="color:var(--muted)">(${fmt(v.proximaDose)}${v.status === 'atrasada' ? ' · atrasada' : ''})</small></span><button class="btn" data-vac="${v.id}">Marcar aplicada</button></div>`).join('');
+  const meds = pet.medicamentos.filter((m) => m.status === 'ativo').map((m) => `<div class="sensor"><span>💊 ${esc(m.nome)} <small style="color:var(--muted)">(retorno ${fmt(m.dataRetorno)})</small></span><button class="btn" data-med="${m.id}">Retorno feito</button></div>`).join('');
+  $('#registros').innerHTML = vac + meds +
+    `<div class="sensor"><span>🩺 Consulta de rotina (data de referência)</span><button class="btn" id="regCons">Registrar</button></div>` +
+    `<div class="sensor"><span>🏃 Variação de atividade (%)</span><span><input id="regAtv" type="number" value="-35" style="width:80px"> <button class="btn" id="regAtvBtn">Registrar</button></span></div>`;
+  const apos = async (msg) => { toast(msg); await carregarTutor(); };
+  document.querySelectorAll('[data-vac]').forEach((b) => b.onclick = async () => { await api(`/api/pets/${st.petId}/vacinas/${b.dataset.vac}/aplicar`, { body: { dataAplicacao: ref() } }); apos('Vacina registrada — recomendações recalculadas'); });
+  document.querySelectorAll('[data-med]').forEach((b) => b.onclick = async () => { await api(`/api/pets/${st.petId}/medicamentos/${b.dataset.med}/retorno-realizado`, { body: { data: ref() } }); apos('Retorno registrado — recomendações recalculadas'); });
+  $('#regCons').onclick = async () => { await api(`/api/pets/${st.petId}/consultas`, { body: { data: ref(), tipo: 'rotina' } }); apos('Consulta registrada — recomendações recalculadas'); };
+  $('#regAtvBtn').onclick = async () => { await api(`/api/pets/${st.petId}/comportamento`, { body: { variacaoAtividadePercentual: Number($('#regAtv').value) } }); apos('Atividade registrada'); };
+}
+
+$('#simNormal').onclick = async () => { await api(`/api/pets/${st.petId}/iot/simular`, { body: { perfil: 'normal' } }); toast('24 h de leituras PIR simuladas (atividade normal)'); carregarTutor(); };
+$('#simQueda').onclick = async () => { await api(`/api/pets/${st.petId}/iot/simular`, { body: { perfil: 'queda' } }); toast('24 h de leituras PIR simuladas (queda de ~35%)'); carregarTutor(); };
+
+function addMsg(who, text, extra) { const d = document.createElement('div'); d.className = 'msg ' + who + (extra && extra.alerta ? ' alerta' : ''); d.textContent = text; if (extra && extra.rodape) { const s = document.createElement('small'); s.textContent = extra.rodape; d.appendChild(s); } $('#msgs').appendChild(d); $('#msgs').scrollTop = 1e9; }
+function sugestoes(list) { $('#sugs').innerHTML = (list || []).slice(0, 4).map((s) => `<button class="btn">${esc(s)}</button>`).join(''); document.querySelectorAll('#sugs .btn').forEach((b) => b.onclick = () => enviar(b.textContent)); }
+async function enviar(texto) {
+  texto = (texto || $('#chatIn').value).trim(); if (!texto) return; $('#chatIn').value = ''; addMsg('u', texto);
+  try {
+    const r = await api(`/api/pets/${st.petId}/chat`, { body: { mensagem: texto, dataReferencia: ref() } });
+    const rod = r.modo === 'llm' ? '✨ IA generativa · guardrails OK' : r.modo === 'guardrail' ? '🛡️ guardrail de segurança' : '📊 baseada nos dados do pet';
+    addMsg('a', r.resposta, { alerta: r.alerta === 'emergencia', rodape: rod + (r.fontes && r.fontes.length ? ' · fontes: ' + r.fontes.join(', ') : '') });
+    sugestoes(r.sugestoes);
+  } catch (e) { addMsg('a', 'Erro: ' + e.message); }
+}
+$('#chatBtn').onclick = () => enviar(); $('#chatIn').onkeydown = (e) => { if (e.key === 'Enter') enviar(); };
+
+async function carregarClinica() {
+  const [p, m, a] = await Promise.all([api(`/api/clinica/painel?dataReferencia=${ref()}`), api('/api/clinica/metricas'), api('/api/clinica/auditoria?limite=8')]);
+  const altas = p.pacientes.filter((x) => x.prioridadeMaxima === 'ALTA').length;
+  $('#kpis').innerHTML = [[p.totalPacientes, 'pacientes'], [p.comPendencias, 'com pendências'], [altas, 'prioridade ALTA'], [m.feedback.taxaAdesao === null ? '—' : m.feedback.taxaAdesao + '%', 'adesão às recomendações']].map(([n, l]) => `<div class="card kpi"><b>${esc(n)}</b><span>${l}</span></div>`).join('');
+  $('#painel').innerHTML = `<table><thead><tr><th>Paciente</th><th>Fase</th><th>Prioridade máx.</th><th>Pendências</th></tr></thead><tbody>${p.pacientes.map((x) => `
+    <tr class="row" data-id="${esc(x.id)}"><td><b>${esc(x.nome)}</b><br><small style="color:var(--muted)">${esc(x.tutor)}</small></td><td>${esc(x.faseVida)}</td><td><span class="prio ${esc(x.prioridadeMaxima)}">${esc(x.prioridadeMaxima)} ${x.scoreMaximo || ''}</span></td><td>${esc(x.totalRecomendacoes)}</td></tr>
+    <tr class="hidden" id="det-${esc(x.id)}"><td colspan="4"></td></tr>`).join('')}</tbody></table>`;
+  document.querySelectorAll('#painel tr.row').forEach((tr) => tr.onclick = () => abrirDetalhe(tr.dataset.id));
+  $('#auditoria').innerHTML = `<table><thead><tr><th>#</th><th>Pet</th><th>Ref.</th><th>Público</th><th>Texto</th></tr></thead><tbody>${a.map((x) => `<tr><td>${x.id}</td><td>${esc(x.petId)}</td><td>${fmt(x.dataReferencia)}</td><td>${esc(x.publico)}</td><td>${esc(x.modoExplicacao)}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">Sem análises ainda.</td></tr>'}</tbody></table>`;
+  $('#metricas').innerHTML = `<div class="sensor"><span>Análises executadas</span><b>${m.analisesExecutadas}</b></div><div class="sensor"><span>Recomendações geradas</span><b>${m.recomendacoesGeradas}</b></div><div class="sensor"><span>Agendadas / dispensadas</span><b>${m.feedback.agendado} / ${m.feedback.dispensado}</b></div><div class="sensor"><span>Úteis / não úteis</span><b>${m.feedback.util} / ${m.feedback.naoUtil}</b></div><div class="sensor"><span>Revisão clínica (aprov. / rejeit.)</span><b>${m.revisaoClinica.aprovada} / ${m.revisaoClinica.rejeitada}</b></div><div class="sensor"><span>Perguntas ao assistente</span><b>${m.conversas}</b></div>`;
+}
+async function abrirDetalhe(id) {
+  const tr = $('#det-' + id); if (!tr.classList.contains('hidden')) { tr.classList.add('hidden'); return; }
+  const r = await api(`/api/pets/${id}/recomendacoes?publico=clinica&dataReferencia=${ref()}&publicarMqtt=false`);
+  const td = tr.firstElementChild; tr.classList.remove('hidden');
+  td.innerHTML = `<div class="note" style="margin:0 0 8px">${esc(r.resumo)}</div>` + (r.recomendacoes.map((x) => `
+    <div class="rec ${esc(x.prioridade)}" data-rid="${x.id}"><div class="rec-head"><div class="rec-title">${esc(x.acao)}</div><span class="prio ${esc(x.prioridade)}">${esc(x.prioridade)} · ${esc(x.score)}</span></div><p>${esc(x.explicacao)}</p>
+    <div class="actions"><button class="btn primary" data-rv="aprovada">✔ Aprovar</button><button class="btn" data-rv="rejeitada">✖ Rejeitar</button><span class="done"></span></div></div>`).join('') || '<div class="empty">Sem pendências.</div>');
+  td.querySelectorAll('.rec').forEach((c) => c.querySelectorAll('[data-rv]').forEach((b) => b.onclick = async (ev) => { ev.stopPropagation(); await api(`/api/recomendacoes/${c.dataset.rid}/revisao`, { body: { revisao: b.dataset.rv } }); c.querySelector('.done').textContent = '✓ Revisão registrada: ' + b.dataset.rv; }));
+}
+async function carregarIA() {
+  const p = await api('/api/ia/parametros');
+  $('#params').innerHTML = `<table><thead><tr><th>Regra</th><th>Condição</th><th>Score</th></tr></thead><tbody>
+    <tr><td>R1 Vacinação</td><td>vacina atrasada (prioridade cresce até ${p.vacina.tetoAtrasoDias} dias de atraso)</td><td>${p.vacina.base} + atraso/${p.vacina.divisor} (máx. ${p.vacina.max})</td></tr>
+    <tr><td>R2 Consulta preventiva</td><td>intervalo acima de: filhote ${p.intervaloConsultaDias.filhote} d · adulto ${p.intervaloConsultaDias.adulto} d · idoso ${p.intervaloConsultaDias.idoso} d</td><td>${p.scoreConsultaPreventiva}</td></tr>
+    <tr><td>R3 Retorno clínico</td><td>tratamento ativo com data de retorno vencida</td><td>${p.scoreRetornoClinico}</td></tr>
+    <tr><td>R4 Comportamento</td><td>queda de atividade ≤ ${p.limiarQuedaAtividadePct}%</td><td>${p.scoreComportamento}</td></tr></tbody></table>
+    <p class="note">Prioridade: score ≥ ${p.faixas.alta} = ALTA · ${p.faixas.media}–${p.faixas.alta - 1} = MÉDIA · abaixo = BAIXA. Parâmetros heurísticos do protótipo acadêmico; devem ser validados por veterinários.</p>`;
+}
+
+document.querySelectorAll('.nav button').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('.nav button').forEach((x) => x.classList.toggle('active', x === b));
+  st.view = b.dataset.view; ['tutor', 'clinica', 'ia'].forEach((v) => $('#v-' + v).classList.toggle('hidden', v !== st.view));
+  $('#titulo').innerHTML = st.view === 'tutor' ? 'Cuidados do <span>pet</span>' : st.view === 'clinica' ? 'Painel da <span>clínica</span>' : 'Como a <span>IA</span> funciona';
+  recarregar();
+});
+function recarregar() { if (st.view === 'tutor') carregarTutor(); else if (st.view === 'clinica') carregarClinica(); else carregarIA(); }
+$('#ref').onchange = recarregar;
+$('#btnDemo').onclick = () => { $('#ref').value = st.demo; recarregar(); };
+$('#btnHoje').onclick = () => { $('#ref').value = new Date().toISOString().slice(0, 10); recarregar(); };
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "clyvocare-backend",
+  "version": "4.0.0",
+  "description": "ClyvoCare OS — API, banco de dados e componentes de IA (Sprint 4)",
+  "main": "src/server.js",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/db/seed.js --reset",
+    "test": "node tests/run.js",
+    "avaliar": "node scripts/avaliar.js",
+    "verificar-entrega": "node scripts/verificar-entrega.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "mqtt": "^5.16.1"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^13.0.3"
+  }
+}

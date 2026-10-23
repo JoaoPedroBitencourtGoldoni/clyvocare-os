@@ -1,5 +1,7 @@
 # Arquitetura e Fluxo de Dados — ClyvoCare OS
 
+> **Atualização Sprint 4:** a integração App ↔ API ↔ Banco de Dados ↔ IA descrita na seção 3 (“integração proposta”) foi implementada. Veja [`SPRINT4-IMPLEMENTACAO.md`](SPRINT4-IMPLEMENTACAO.md) e [`API.md`](API.md). O conteúdo abaixo é o da Sprint 3, preservado.
+
 ## 1. Visão arquitetural
 
 ```mermaid

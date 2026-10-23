@@ -1,0 +1,338 @@
+[
+  {
+    "id": "s4tab0000000001",
+    "type": "tab",
+    "label": "Sprint 4 — Integração com API de IA",
+    "disabled": false,
+    "info": "Fluxo complementar da Sprint 4. Requer o backend em execução (npm start, porta 3000). Não altera o flow das Sprints 2/3."
+  },
+  {
+    "id": "s4broker0000001",
+    "type": "mqtt-broker",
+    "name": "HiveMQ (Sprint 4)",
+    "broker": "broker.hivemq.com",
+    "port": "1883",
+    "clientid": "node-red-clyvocare-s4",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+  {
+    "id": "s4i0000000001",
+    "type": "inject",
+    "z": "s4tab0000000001",
+    "name": "Consultar recomendações — Thor (API + BD)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "0.1",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 190,
+    "y": 100,
+    "wires": [
+      [
+        "s4h0000000001"
+      ]
+    ]
+  },
+  {
+    "id": "s4h0000000001",
+    "type": "http request",
+    "z": "s4tab0000000001",
+    "name": "GET /api/pets/pet-001/recomendacoes",
+    "method": "GET",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://localhost:3000/api/pets/pet-001/recomendacoes?dataReferencia=2026-08-31&publicarMqtt=false",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 470,
+    "y": 100,
+    "wires": [
+      [
+        "s4f0000000001"
+      ]
+    ]
+  },
+  {
+    "id": "s4f0000000001",
+    "type": "function",
+    "z": "s4tab0000000001",
+    "name": "Resume resposta da IA",
+    "func": "var r = msg.payload;\nif (msg.statusCode !== 200) {\n    node.error('API retornou HTTP ' + msg.statusCode + ': ' + JSON.stringify(r));\n    return null;\n}\nvar linhas = (r.recomendacoes || []).map(function (x, i) {\n    return (i + 1) + ') [' + x.prioridade + ' ' + x.score + '] ' + x.acao + ' — ' + x.motivo;\n});\nnode.status({ fill: 'green', shape: 'dot', text: r.pet.nome + ': ' + r.totalRecomendacoes + ' recomendação(ões)' });\nvar mqttMsg = { topic: 'clyvocare/ia/recomendacoes', payload: {\n    pet: r.pet, abordagemIA: r.abordagemIA, totalRecomendacoes: r.totalRecomendacoes,\n    recomendacoes: (r.recomendacoes || []).map(function (x) { return { regra: x.regra, servico: x.servico, acao: x.acao, score: x.score, prioridade: x.prioridade, motivo: x.motivo }; }),\n    geradoEm: r.geradoEm, aviso: r.aviso, origem: 'api-clyvocare-sprint4' } };\nvar dbg = { payload: { resumo: r.resumo || null, texto: r.geracao ? r.geracao.modo : 'n/d', recomendacoes: linhas, qualidadeDados: r.qualidadeDados } };\nreturn [mqttMsg, dbg];\n",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 730,
+    "y": 100,
+    "wires": [
+      [
+        "s4m0000000001"
+      ],
+      [
+        "s4d0000000001"
+      ]
+    ]
+  },
+  {
+    "id": "s4m0000000001",
+    "type": "mqtt out",
+    "z": "s4tab0000000001",
+    "name": "Publica Recomendações IA",
+    "topic": "clyvocare/ia/recomendacoes",
+    "qos": "0",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "s4broker0000001",
+    "x": 990,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "s4d0000000001",
+    "type": "debug",
+    "z": "s4tab0000000001",
+    "name": "DEBUG Recomendações (API)",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 990,
+    "y": 130,
+    "wires": []
+  },
+  {
+    "id": "s4i0000000002",
+    "type": "inject",
+    "z": "s4tab0000000001",
+    "name": "Dados do Pet — Demonstração IA (via API)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "0.1",
+    "topic": "",
+    "payload": "{\n  \"dataReferencia\": \"2026-08-31\",\n  \"perfil\": {\n    \"id\": \"pet-001\",\n    \"nome\": \"Thor\",\n    \"especie\": \"cao\",\n    \"idadeAnos\": 3,\n    \"faseVida\": \"adulto\"\n  },\n  \"historicoClinico\": [\n    {\n      \"data\": \"2026-03-10\",\n      \"tipo\": \"consulta\",\n      \"observacao\": \"acompanhamento de rotina\"\n    }\n  ],\n  \"vacinas\": [\n    {\n      \"nome\": \"Raiva\",\n      \"proximaDose\": \"2026-08-15\",\n      \"status\": \"atrasada\"\n    },\n    {\n      \"nome\": \"V10\",\n      \"proximaDose\": \"2027-01-10\",\n      \"status\": \"em_dia\"\n    }\n  ],\n  \"consultas\": [\n    {\n      \"data\": \"2026-02-01\",\n      \"tipo\": \"rotina\"\n    }\n  ],\n  \"medicamentos\": [\n    {\n      \"nome\": \"Tratamento prescrito\",\n      \"status\": \"ativo\",\n      \"retornoRecomendado\": true,\n      \"dataRetorno\": \"2026-08-20\"\n    }\n  ],\n  \"comportamento\": {\n    \"variacaoAtividadePercentual\": -35,\n    \"origem\": \"PIR IoT + registro do tutor\"\n  }\n}\n",
+    "payloadType": "json",
+    "x": 200,
+    "y": 280,
+    "wires": [
+      [
+        "s4f0000000002"
+      ]
+    ]
+  },
+  {
+    "id": "s4f0000000002",
+    "type": "function",
+    "z": "s4tab0000000001",
+    "name": "Cabeçalho JSON",
+    "func": "msg.headers = { 'content-type': 'application/json' };\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 280,
+    "wires": [
+      [
+        "s4h0000000002"
+      ]
+    ]
+  },
+  {
+    "id": "s4h0000000002",
+    "type": "http request",
+    "z": "s4tab0000000001",
+    "name": "POST /api/ia/analisar",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://localhost:3000/api/ia/analisar",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 680,
+    "y": 280,
+    "wires": [
+      [
+        "s4f0000000003"
+      ]
+    ]
+  },
+  {
+    "id": "s4f0000000003",
+    "type": "function",
+    "z": "s4tab0000000001",
+    "name": "Resume resposta da IA",
+    "func": "var r = msg.payload;\nif (msg.statusCode !== 200) {\n    node.error('API retornou HTTP ' + msg.statusCode + ': ' + JSON.stringify(r));\n    return null;\n}\nvar linhas = (r.recomendacoes || []).map(function (x, i) {\n    return (i + 1) + ') [' + x.prioridade + ' ' + x.score + '] ' + x.acao + ' — ' + x.motivo;\n});\nnode.status({ fill: 'green', shape: 'dot', text: r.pet.nome + ': ' + r.totalRecomendacoes + ' recomendação(ões)' });\nvar mqttMsg = { topic: 'clyvocare/ia/recomendacoes', payload: {\n    pet: r.pet, abordagemIA: r.abordagemIA, totalRecomendacoes: r.totalRecomendacoes,\n    recomendacoes: (r.recomendacoes || []).map(function (x) { return { regra: x.regra, servico: x.servico, acao: x.acao, score: x.score, prioridade: x.prioridade, motivo: x.motivo }; }),\n    geradoEm: r.geradoEm, aviso: r.aviso, origem: 'api-clyvocare-sprint4' } };\nvar dbg = { payload: { resumo: r.resumo || null, texto: r.geracao ? r.geracao.modo : 'n/d', recomendacoes: linhas, qualidadeDados: r.qualidadeDados } };\nreturn [mqttMsg, dbg];\n",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 920,
+    "y": 280,
+    "wires": [
+      [
+        "s4m0000000001"
+      ],
+      [
+        "s4d0000000002"
+      ]
+    ]
+  },
+  {
+    "id": "s4d0000000002",
+    "type": "debug",
+    "z": "s4tab0000000001",
+    "name": "DEBUG IA como serviço",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1160,
+    "y": 300,
+    "wires": []
+  },
+  {
+    "id": "s4i0000000003",
+    "type": "inject",
+    "z": "s4tab0000000001",
+    "name": "Painel da clínica",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "0.1",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 460,
+    "wires": [
+      [
+        "s4h0000000003"
+      ]
+    ]
+  },
+  {
+    "id": "s4h0000000003",
+    "type": "http request",
+    "z": "s4tab0000000001",
+    "name": "GET /api/clinica/painel",
+    "method": "GET",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://localhost:3000/api/clinica/painel?dataReferencia=2026-08-31",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 400,
+    "y": 460,
+    "wires": [
+      [
+        "s4f0000000004"
+      ]
+    ]
+  },
+  {
+    "id": "s4f0000000004",
+    "type": "function",
+    "z": "s4tab0000000001",
+    "name": "Resume painel",
+    "func": "var p = msg.payload;\nmsg.payload = (p.pacientes || []).map(function (x) {\n    return x.nome + ' — ' + x.prioridadeMaxima + ' (' + x.totalRecomendacoes + ' pendência(s))';\n});\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 620,
+    "y": 460,
+    "wires": [
+      [
+        "s4d0000000003"
+      ]
+    ]
+  },
+  {
+    "id": "s4d0000000003",
+    "type": "debug",
+    "z": "s4tab0000000001",
+    "name": "DEBUG Painel clínica",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 840,
+    "y": 460,
+    "wires": []
+  }
+]
